@@ -1,0 +1,45 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+<meta charset="utf-8" />
+<title>Hello, World! • A-Frame</title>
+<meta name="description" content="Hello, World! • A-Frame" />
+<script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+<script src="./components/camera-cube-env.js"></script>
+<script src="./components/light-map-geometry.js"></script>
+</head>
+<body class="a-body ">
+<a-scene background="color:#5f5f5f" class="fullscreen" inspector="" keyboard-shortcuts="" screenshot="" vr-mode-ui="" shadow="autoUpdate: true; type:pcfsoft" stats="">
+
+<a-assets>
+    <img id="sky" src="./textures/sky.jpg">
+	<img id="door_C" src="./textures/ParthenonOptimized_DoorMat_BaseColor.png">
+	<img id="door_N" src="./textures/ParthenonOptimized_DoorMat_Normal.png">
+	<img id="door_M" src="./textures/ParthenonOptimized_DoorMat_Metallic.png">
+	<img id="door_R" src="./textures/ParthenonOptimized_DoorMat_Roughness.png">
+	
+	
+	<a-asset-item id="plane" src="./objects/plane.obj"></a-asset-item>
+	<a-asset-item id="box1" src="./objects/box1.obj"></a-asset-item>
+	<a-asset-item id="box2" src="./objects/box2.obj"></a-asset-item>
+	<a-asset-item id="sphere" src="./objects/sphere.obj"></a-asset-item>
+</a-assets>
+
+
+<a-entity obj-model="obj:./objects/plane.obj" material="roughness:0.33" light-map-geometry="path:./objects/lighting/polySurfaceShape2.jpg" shadow=""></a-entity>
+
+<a-entity obj-model="obj:./objects/box1.obj" material="roughness:1" light-map-geometry="path:./objects/lighting/polySurfaceShape3.jpg" shadow="" ></a-entity>
+
+<a-entity obj-model="obj:./objects/box2.obj" material="roughness:1" light-map-geometry="path:./objects/lighting/polySurfaceShape6.jpg" shadow="" ></a-entity>
+
+
+<a-entity obj-model="obj:./objects/sphere.obj" material="roughness:1;color:#ffffff;metalness:0.72;roughnessMap:#door_R;normalMap:#door_N;metalnessMap:#door_M;src:#door_C" light-map-geometry="path:./objects/lighting/polySurfaceShape4.jpg" camera-cube-env="distance: 100000; resolution: 256; repeat: false; interval: 1000" position="" shadow=""></a-entity>
+
+<a-entity geometry="" material="" shadow="" light-map-geometry="path:./objects/lighting/polySurfaceShape6.jpg" position="4.988 1.745 8.236" scale="3.69 3.69 3.69"></a-entity>
+ 
+ 
+ <a-entity light="castShadow:true;intensity:0.32;shadowCameraTop:20;shadowCameraRight:20;shadowCameraBottom:-20;shadowCameraLeft:-20;shadowMapHeight:1024;shadowMapWidth:1024" position="-14.3 8.242267076007929 19.06"></a-entity>
+
+</a-scene>
+
+
+</body></html>
