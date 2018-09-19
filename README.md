@@ -1,6 +1,8 @@
 # aframe_Components
 a reopository or aframe components developed or modified by me for Aframe-VR
 
+![alt text](./cube-camera-environment.JPG)
+
 # camera-cube-env component
 
 a component to inject cubemap envMaps into an object based on the objects position.  This allows you to capture the environment at runtime without much cost to rendering.
@@ -18,6 +20,8 @@ a component to inject a cubemap into an objects material using specific named ma
 Just add the
 # cube-env-map="path: ./path/to/some/texture; extension: jpg"
 to your elements.  Like the cube camera it will parse through the objects looking for materials with a envMap and replace them with the specified images with the following names: posx.jpg, negx.jpg, posy.jpg, negy.jpg, negz.jpg, posz.jpg
+
+![alt text](./lightMapComponent.JPG)
 
 # light-map-geometry
 
