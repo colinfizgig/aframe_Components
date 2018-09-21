@@ -5,24 +5,36 @@
 <meta name="description" content="Hello, World! • A-Frame" />
 <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
 <script src="./components/camera-cube-env.js"></script>
-  <head>
-    <style>
-      div, iframe {
-        display: block;
-        width: 70%;
-        height: 60%;
-        margin: 0 auto;
-        background-color: #000;
-       }
-    </style>
-  </head>
 </head>
 <body class="a-body ">
-<iframe title="CubeCamera" src="https://www.colins-loft.net/aframe/Cube_Camera_Environment.html" width="70%" height="60%" allowfullscreen="yes" allowvr="yes" scrolling="yes">
-</iframe>
-  </b>
-  <iframe title="BakedLighting" src="https://www.colins-loft.net/aframe/lightTest.html" width="70%" height="60%" allowfullscreen="yes" allowvr="yes" scrolling="yes">
-</iframe>
+<a-scene background="color:#5f5f5f" class="fullscreen" inspector="" keyboard-shortcuts="" screenshot="" vr-mode-ui="" shadow="autoUpdate: true; type:pcfsoft">
+
+<a-assets>
+	<img id="sky" src="./textures/sky.jpg">
+	
+	<img id="door_C" src="./textures/ParthenonOptimized_DoorMat_BaseColor.png">
+	<img id="door_N" src="./textures/ParthenonOptimized_DoorMat_Normal.png">
+	<img id="door_M" src="./textures/ParthenonOptimized_DoorMat_Metallic.png">
+	<img id="door_R" src="./textures/ParthenonOptimized_DoorMat_Roughness.png">
+
+</a-assets>
+
+<a-sky src="#sky" material="" geometry="" rotation="0 90 0"></a-sky>
+
+<a-box id="box" position="-1 0.4873319116589905 -3" rotation="0 45 0" color="#4CC3D9" shadow="" material="" geometry="" ></a-box>
+
+
+<a-sphere position="-0.030882298031221847 1.193090656580662 -5.974771159246423" radius="1.25" color="#EF2D5E" shadow="" material="color:#ffffff;metalness:1;roughness:1;metalnessMap:#door_M;normalMap:#door_N;normalScale:0.3200000000000001 -0.38;src:#door_C;roughnessMap:#door_R;metalnessTextureRepeat:1 0.5;normalTextureRepeat:1 0.5;roughnessTextureRepeat:1 0.5;repeat:1 0.5" camera-cube-env="distance: 100000; resolution: 256; repeat: false; interval: 1000" geometry="" id="sphere" ></a-sphere>
+
+<a-sphere position="1.9235126854468014 1.2578420656285436 -2.7593437232222047" radius="2"  color="#FFC65D" shadow="" material="metalness:1;roughness:0"  camera-cube-env="distance: 100000; resolution: 256; repeat: false; interval: 1000" id="goldSphere"></a-sphere>
+
+<a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" shadow="" material="" geometry="" scale="100 100 1"></a-plane>
+
+<a-entity position="-3.25 6.437 3.45" id="spotlight" light="castShadow:true;penumbra:0.78;angle:20.59;target:#sphere;shadowMapHeight:2048;shadowMapWidth:2048;shadowCameraFov:50;shadowCameraFar:492.95;shadowCameraVisible:false;shadowCameraTop:30;shadowCameraRight:15;shadowCameraBottom:-15;shadowCameraLeft:-15"></a-entity>
+
+ <a-entity light="type:hemisphere;groundColor:#4a4137;color:#ceeaf7;angle:0;distance:100;decay:0;intensity:0.53;target:#statue" rotation="0 0 0.01" visible=""></a-entity>
+
+</a-scene>
 
 
 </body></html>
