@@ -1,40 +1,137 @@
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 
 <meta charset="utf-8" />
-<title>Hello, World! • A-Frame</title>
+<title>Colins Aframe Component Examples</title>
 <meta name="description" content="Hello, World! • A-Frame" />
 <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
 <script src="./components/camera-cube-env.js"></script>
+<style>
+	body {
+		font: 400 1.1rem/1.6 Fira Sans,Helvetica,Arial,sans-serif;
+	}
+	aside {
+		display: block;
+		width: 30%;
+		height: 100%;
+		max-width: 400px;
+		margin-left: 0px;
+		background: #efa42d;
+		overflow-x: hidden;
+	}
+	#sideBar {
+		display: block;
+		padding: 40px;
+		overflow-y: auto;
+	}
+	
+	#Title {
+		font-size: 32px;
+		color: #FFFFFF;
+		line-height: 110%;
+	}
+	
+	#subTitle {
+		font-size: 20px;
+		color: #ba760b;
+		line-height: 110%;
+		text-transform: uppercase;
+	}
+	
+	.button {
+		font-size: 18px;
+		color: #000000;
+		padding: 4px, 4px, 4px, 4px;
+		height: 40px;
+		margin-left: -3px;
+	}
+	
+	#content {
+		display: block;
+		width: 80%;
+		Height: 100%;
+	}
+	
+	#exampleIframe {
+		border: 0px;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+	#main {
+		display: flex;
+		height: 100%;
+	}
+	a {
+		padding: 4px;
+		color: #000000;
+		text-decoration: none;
+		text-transform: uppercase;
+	}
+	a:hover {
+		padding-right: 10px;
+		padding-top: 4px;
+		padding-bottom: 4px;
+		background-color: #ba760b;
+		color: #FFFFFF;
+		cursor: pointer;
+	}
+	a:active {
+		color: #000000;
+	}
+	#description {
+		color: #ffffff;
+	}
+	#description1 {
+		color: #ffffff;
+	}
+	.youtubeLink {
+		color: #ba760b;
+		cursor: pointer;
+		text-transform: capitalize;
+	}
+	.youtubeLink:hover {
+		color: #000000;
+		background-color: #efa42d;
+	}
+
+</style>
 </head>
 <body class="a-body ">
-<a-scene background="color:#5f5f5f" class="fullscreen" inspector="" keyboard-shortcuts="" screenshot="" vr-mode-ui="" shadow="autoUpdate: true; type:pcfsoft">
-
-<a-assets>
-	<img id="sky" src="./textures/sky.jpg">
+<script>
 	
-	<img id="door_C" src="./textures/ParthenonOptimized_DoorMat_BaseColor.png">
-	<img id="door_N" src="./textures/ParthenonOptimized_DoorMat_Normal.png">
-	<img id="door_M" src="./textures/ParthenonOptimized_DoorMat_Metallic.png">
-	<img id="door_R" src="./textures/ParthenonOptimized_DoorMat_Roughness.png">
-
-</a-assets>
-
-<a-sky src="#sky" material="" geometry="" rotation="0 90 0"></a-sky>
-
-<a-box id="box" position="-1 0.4873319116589905 -3" rotation="0 45 0" color="#4CC3D9" shadow="" material="" geometry="" ></a-box>
-
-
-<a-sphere position="-0.030882298031221847 1.193090656580662 -5.974771159246423" radius="1.25" color="#EF2D5E" shadow="" material="color:#ffffff;metalness:1;roughness:1;metalnessMap:#door_M;normalMap:#door_N;normalScale:0.3200000000000001 -0.38;src:#door_C;roughnessMap:#door_R;metalnessTextureRepeat:1 0.5;normalTextureRepeat:1 0.5;roughnessTextureRepeat:1 0.5;repeat:1 0.5" camera-cube-env="distance: 100000; resolution: 256; repeat: false; interval: 1000" geometry="" id="sphere" ></a-sphere>
-
-<a-sphere position="1.9235126854468014 1.2578420656285436 -2.7593437232222047" radius="2"  color="#FFC65D" shadow="" material="metalness:1;roughness:0"  camera-cube-env="distance: 100000; resolution: 256; repeat: false; interval: 1000" id="goldSphere"></a-sphere>
-
-<a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" shadow="" material="" geometry="" scale="100 100 1"></a-plane>
-
-<a-entity position="-3.25 6.437 3.45" id="spotlight" light="castShadow:true;penumbra:0.78;angle:20.59;target:#sphere;shadowMapHeight:2048;shadowMapWidth:2048;shadowCameraFov:50;shadowCameraFar:492.95;shadowCameraVisible:false;shadowCameraTop:30;shadowCameraRight:15;shadowCameraBottom:-15;shadowCameraLeft:-15"></a-entity>
-
- <a-entity light="type:hemisphere;groundColor:#4a4137;color:#ceeaf7;angle:0;distance:100;decay:0;intensity:0.53;target:#statue" rotation="0 0 0.01" visible=""></a-entity>
-
-</a-scene>
-
+	function loadExample(myURL) {
+		document.getElementById("exampleIframe").src = myURL;
+		if(myURL == 'https://colinfizgig.github.io/aframe_Components/index.html'){
+				document.getElementById('description').innerHTML = "This is a example of a my cubecamera component which attaches a three.js cubeCamera to a reflective object and loads the texture from that camera as a cube environment map.  For a tutorial on how it works and why it's useful check out </br><a class='youtubeLink' href='https://www.youtube.com/watch?v=Qkdq9JxSogg'>https://www.youtube.com/watch?v=Qkdq9JxSogg</a></br></br>";
+				document.getElementById('description1').innerHTML = '';
+			}else if(myURL == 'https://colinfizgig.github.io/aframe_Components/lightTest.html'){
+				document.getElementById('description1').innerHTML = "This is a example of a my light map component which attaches a baked light map to the standard material light map in aframe.  This is not exposed in the material interface and requires a second set of UVs on the object.  For a tutorial on how it works and why it's useful check out </br><a class='youtubeLink' href='https://www.youtube.com/watch?v=G0M4OBThID8'>https://www.youtube.com/watch?v=G0M4OBThID8</a></br></br>";
+				document.getElementById('description').innerHTML = '';
+			}
+	}
+</script>
+<div id="main">
+	<aside>
+		<div id="sideBar">
+			<div id="Title">Colin's</br>Aframe</br>Components</br></div>
+			</br>
+			</br>
+			<div id="subTitle">Examples</br></div>
+			</br>
+			<div>
+			<div class="button"><a onclick="loadExample('https://colinfizgig.github.io/aframe_Components/index.html')">Camera Cube Env Map</a></div>
+			<div id="description"></div>
+			
+			<div class="button"><a onclick="loadExample('https://colinfizgig.github.io/aframe_Components/lightTest.html')">Baked Light Mapping</a></div>
+			<div id="description1"></div>
+			</br>
+			
+		
+		</div>
+	</aside>
+	<div id="content">
+	<iframe id="exampleIframe" class="example__iframe" width="100%" height="100%" allowfullscreen="yes" scrolling="no" allowvr="yes" src="./Cube_Camera_Environment.html"></iframe>
+	</div>
+</div>
 
 </body></html>
