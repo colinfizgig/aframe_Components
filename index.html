@@ -6,43 +6,60 @@
 <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
 <script src="./components/camera-cube-env.js"></script>
 <style>
+	html {
+        font-size: 14px;
+    }
 	body {
 		font: 400 1.1rem/1.6 Fira Sans,Helvetica,Arial,sans-serif;
 	}
+	ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
 	aside {
 		display: block;
 		width: 30%;
 		height: 100%;
 		max-width: 400px;
+		min-width: 300px;
 		margin-left: 0px;
 		background: #efa42d;
 		overflow-x: hidden;
 	}
 	#sideBar {
 		display: block;
-		padding: 40px;
+		padding: 2rem;
 		overflow-y: auto;
 	}
 	
 	#Title {
-		font-size: 32px;
+		font-size: 2.3rem;
 		color: #FFFFFF;
 		line-height: 110%;
+		margin-bottom: 3rem;
 	}
 	
 	#subTitle {
-		font-size: 20px;
-		color: #ba760b;
+		font-size: 1.3rem;
+		color: rgb(180 70 10);
 		line-height: 110%;
 		text-transform: uppercase;
 	}
 	
 	.button {
-		font-size: 18px;
+		font-size: 1.1rem;
 		color: #000000;
-		padding: 4px, 4px, 4px, 4px;
-		height: 40px;
-		margin-left: -3px;
+		padding: .5rem, .5rem, .5rem, .5rem;
+		height: 2rem;
+		margin-left: -.4rem;
+	}
+	
+	.button:hover {
+		font-size: 1.1rem;
+		color: #FFFFFF;
+		background-color: rgb(230 135 40);
+		cursor: pointer;
 	}
 	
 	#content {
@@ -62,37 +79,86 @@
 		height: 100%;
 	}
 	a {
-		padding: 4px;
-		color: #000000;
+		height: 2rem;
+		padding: .5rem;
 		text-decoration: none;
 		text-transform: uppercase;
 	}
-	a:hover {
-		padding-right: 10px;
-		padding-top: 4px;
-		padding-bottom: 4px;
-		background-color: #ba760b;
-		color: #FFFFFF;
-		cursor: pointer;
-	}
-	a:active {
-		color: #000000;
-	}
+
 	#description {
 		color: #ffffff;
 	}
 	#description1 {
 		color: #ffffff;
 	}
+	.descriptions {
+		color: #ffffff;
+		margin-left: 1rem;
+		margin-right: 3rem;
+	}
 	.youtubeLink {
-		color: #ba760b;
+		font-size: 1.2rem;
+		color: rgb(180 70 10);
 		cursor: pointer;
 		text-transform: capitalize;
+		margin-left: -.5rem;
 	}
 	.youtubeLink:hover {
 		color: #000000;
 		background-color: #efa42d;
 	}
+	
+	li {
+		padding-bottom: .5rem;
+	}
+	
+	@media only screen and (max-width: 1000px) {
+		aside {
+			width: 20%;
+			height: 100%;
+			max-width: 350px;
+			min-width: 250px;
+		}
+		#sideBar {
+			padding: 2rem;
+		}
+        #Title {
+			font-size: 1.5rem;
+			color: #FFFFFF;
+			line-height: 100%;
+			margin-bottom: 2rem;
+		}
+		#subTitle {
+			font-size: 1.1rem;
+			line-height: 100%;
+			text-transform: uppercase;
+		}
+        .button {
+			font-size: .9rem;
+			color: #000000;
+			padding: .3rem, .3rem, .3rem, .3rem;
+			height: 1.5rem;
+			margin-left: -.2rem;
+		}
+	
+		.button:hover {
+			font-size: .9rem;
+
+		}
+		a {
+			height: 1.5rem;
+			padding: .3rem;
+		}
+		.descriptions {
+			font-size: .9rem;
+			margin-left: .5rem;
+			margin-right: 1.5rem;
+		}
+		.youtubeLink {
+			font-size: .9rem;
+			margin-left: -.2rem;
+		}
+      }
 
 </style>
 </head>
@@ -102,10 +168,10 @@
 	function loadExample(myURL) {
 		document.getElementById("exampleIframe").src = myURL;
 		if(myURL == 'https://colinfizgig.github.io/aframe_Components/Cube_Camera_Environment.html'){
-				document.getElementById('description').innerHTML = "This is a example of a my cubecamera component which attaches a three.js cubeCamera to a reflective object and loads the texture from that camera as a cube environment map.  For a tutorial on how it works and why it's useful check out </br><a class='youtubeLink' href='https://www.youtube.com/watch?v=Qkdq9JxSogg'>https://www.youtube.com/watch?v=Qkdq9JxSogg</a></br></br>";
+				document.getElementById('description').innerHTML = "This is a example of a my cubecamera component which attaches a three.js cubeCamera to a reflective object and loads the texture from that camera as a cube environment map.  For a tutorial on how it works and why it's useful check out </br></br><a class='youtubeLink' href='https://www.youtube.com/watch?v=Qkdq9JxSogg'>Aframe Materials Tutorial</a></br></br>";
 				document.getElementById('description1').innerHTML = '';
 			}else if(myURL == 'https://colinfizgig.github.io/aframe_Components/lightTest.html'){
-				document.getElementById('description1').innerHTML = "This is a example of a my light map component which attaches a baked light map to the standard material light map in aframe.  This is not exposed in the material interface and requires a second set of UVs on the object.  For a tutorial on how it works and why it's useful check out </br><a class='youtubeLink' href='https://www.youtube.com/watch?v=G0M4OBThID8'>https://www.youtube.com/watch?v=G0M4OBThID8</a></br></br>";
+				document.getElementById('description1').innerHTML = "This is a example of a my light map component which attaches a baked light map to the standard material light map in aframe.  This is not exposed in the material interface and requires a second set of UVs on the object.  For a tutorial on how it works and why it's useful check out </br></br><a class='youtubeLink' href='https://www.youtube.com/watch?v=G0M4OBThID8'>Baked Lighting Tutorial</a></br></br>";
 				document.getElementById('description').innerHTML = '';
 			}
 	}
@@ -114,20 +180,22 @@
 	<aside>
 		<div id="sideBar">
 			<div id="Title">Colin's</br>Aframe</br>Components</br></div>
-			</br>
-			</br>
 			<div id="subTitle">Examples</br></div>
 			</br>
 			<div>
-			<div class="button"><a onclick="loadExample('https://colinfizgig.github.io/aframe_Components/Cube_Camera_Environment.html')">Camera Cube Env Map</a></div>
-			<div id="description"></div>
-			
-			<div class="button"><a onclick="loadExample('https://colinfizgig.github.io/aframe_Components/lightTest.html')">Baked Light Mapping</a></div>
-			<div id="description1"></div>
-			</br>
-			
+				<ul class="links">
+					<li>
+					<div class="button"><a onclick="loadExample('https://colinfizgig.github.io/aframe_Components/Cube_Camera_Environment.html')">Camera Cube Env Map</a></div>
+					<div id="description" class="descriptions"></div>
+					</li>
+					<li>
+					<div class="button"><a onclick="loadExample('https://colinfizgig.github.io/aframe_Components/lightTest.html')">Baked Light Mapping</a></div>
+					<div id="description1" class="descriptions"></div>
+					</li>
+					</br>
+				</ul>
 		
-		</div>
+			</div>
 	</aside>
 	<div id="content">
 	<iframe id="exampleIframe" class="example__iframe" width="100%" height="100%" allowfullscreen="yes" scrolling="no" allowvr="yes" src="./Cube_Camera_Environment.html"></iframe>
