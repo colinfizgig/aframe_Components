@@ -170,9 +170,15 @@
 		if(myURL == 'https://colinfizgig.github.io/aframe_Components/Cube_Camera_Environment.html'){
 				document.getElementById('description').innerHTML = "This is a example of a my cubecamera component which attaches a three.js cubeCamera to a reflective object and loads the texture from that camera as a cube environment map.  For a tutorial on how it works and why it's useful check out </br></br><a class='youtubeLink' href='https://www.youtube.com/watch?v=Qkdq9JxSogg'>Aframe Materials Tutorial</a></br></br>";
 				document.getElementById('description1').innerHTML = '';
+				document.getElementById('description2').innerHTML = '';
 			}else if(myURL == 'https://colinfizgig.github.io/aframe_Components/lightTest.html'){
 				document.getElementById('description1').innerHTML = "This is a example of a my light map component which attaches a baked light map to the standard material light map in aframe.  This is not exposed in the material interface and requires a second set of UVs on the object.  For a tutorial on how it works and why it's useful check out </br></br><a class='youtubeLink' href='https://www.youtube.com/watch?v=G0M4OBThID8'>Baked Lighting Tutorial</a></br></br>";
 				document.getElementById('description').innerHTML = '';
+				document.getElementById('description2').innerHTML = '';
+			}else if(myURL == 'https://colinfizgig.github.io/aframe_Components/Arcade_Merged.html'){
+				document.getElementById('description2').innerHTML = "This is a example using an HTML5 canvas as a texture.  To play the asteroids game hit the space bar on your computer and use the 'j','i','l' and 'm' keys to navigate the ship.  Use the 'space bar' to fire at the asteroids.  I'm working on a tutorial which shows ways to speed up peformance of this type of interactive texture in WebGL.  For best performance use the Chrome browser which seems to render the tag with less overhead than Firefox. </br></br>";
+				document.getElementById('description').innerHTML = '';
+				document.getElementById('description1').innerHTML = '';
 			}
 	}
 </script>
@@ -191,6 +197,10 @@
 					<li>
 					<div class="button"><a onclick="loadExample('https://colinfizgig.github.io/aframe_Components/lightTest.html')">Baked Light Mapping</a></div>
 					<div id="description1" class="descriptions"></div>
+					</li>
+					<li>
+					<div class="button"><a onclick="loadExample('https://colinfizgig.github.io/aframe_Components/Arcade_Merged.html')">Interactive Canvas Texture</a></div>
+					<div id="description2" class="descriptions"></div>
 					</li>
 					</br>
 				</ul>

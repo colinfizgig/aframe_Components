@@ -1,0 +1,80 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+<meta charset="utf-8" />
+<title>Hello, World! • A-Frame</title>
+<meta name="description" content="Hello, World! • A-Frame" />
+	<link rel="stylesheet" href="./asteroids/css/style.css">
+
+		
+	<script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+	<script src="./aframe-effects.min.js"></script>
+	<script src="./camera-cube-env.js"></script>
+
+	<link rel="stylesheet" href="./asteroids/css/style.css">
+	<script type="text/javascript" src="./asteroids/js/libs/class.js"></script>
+	<script type="text/javascript" src="./asteroids/js/state.js"></script>
+	<script type="text/javascript" src="./asteroids/js/points.js"></script>
+	<script type="text/javascript" src="./asteroids/js/audios.js"></script>
+	<script type="text/javascript" src="./asteroids/js/soundEffect.js"></script>
+	<script type="text/javascript" src="./asteroids/js/gameState.js"></script>
+	<script type="text/javascript" src="./asteroids/js/menuState.js"></script>
+	<script type="text/javascript" src="./asteroids/js/endState.js"></script>
+	<script type="text/javascript" src="./asteroids/js/input.js"></script>
+	<script type="text/javascript" src="./asteroids/js/polygon.js"></script>
+	<script type="text/javascript" src="./asteroids/js/asteroid.js"></script>
+	<script type="text/javascript" src="./asteroids/js/debris.js"></script>
+	<script type="text/javascript" src="./asteroids/js/ship.js"></script>
+	<script type="text/javascript" src="./asteroids/js/bullet.js"></script>
+	<script type="text/javascript" src="./asteroids/js/canvas.js"></script>
+	<script type="text/javascript" src="./asteroids/js/main.js"></script>
+	
+</head>
+<body class="a-body ">
+
+<input type="text" id="namefield">
+
+<script>
+	var game = new Game();
+	game.run();
+
+</script>
+		
+<a-scene background="color:#5f5f5f" class="fullscreen" keyboard-shortcuts="" screenshot="" vr-mode-ui="" shadow="autoUpdate: true; type:pcfsoft" stats=""
+	antialias="false"
+    effects="bloom"
+    bloom="filter: bloom!, bloom.filter, #customFilter(bloom_texture 0.3 0.6 0.5); strength: 0.5; radius:1.2"
+ 
+	>
+
+<a-assets>
+	<img id="sky" src="./textures/sky.jpg">
+	
+	<a-asset-item id="cabinet" src="./asteroids/AsteroidsCabinetMerged.glb"></a-asset-item>
+	<a-asset-item id="screen" src="./asteroids/Screen1.obj"></a-asset-item>
+
+</a-assets>
+
+<a-sky src="#sky" material="" geometry="" rotation="0 90 0"></a-sky>
+
+<a-entity id="AsteroidsCabinet" position="-3.09 0 -3">
+	<a-entity gltf-model="#cabinet" camera-cube-env="resolution:256; interval: 1000" shadow="" position="0 0 0" scale="1 1 1"></a-entity>
+
+	<a-entity obj-model="obj:#screen" position="0 0 0" scale="0.01 0.01 0.01" id="gamescreen" material="src:#asteroids; shader:flat"></a-entity>
+	
+</a-entity>
+
+
+<a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"  material="" geometry="" scale="100 100 1" shadow="cast:false; receive: true"></a-plane>
+
+ 
+ 
+ <a-entity position="-6.615488226501929 6.075291694641248 3.45" id="spotlight" light="castShadow:true;target:#AsteroidsCabinet;angle:0;shadowCameraFov:40;shadowCameraFar:492.95;shadowCameraTop:10;shadowCameraRight:10;shadowCameraBottom:-10;shadowCameraLeft:-10"></a-entity>
+ 
+ <a-entity light="type:hemisphere;groundColor:#4a4137;color:#ceeaf7;angle:0;distance:100;decay:0;intensity:0.53" rotation="0 0 0.01" visible=""></a-entity>
+ 
+ <a-entity camera="active:true" position="-2.6857843417985645 1.76 -1.2703126108005907" rotation="2.4064227395494577 2.52101429857562 0" look-controls="" wasd-controls="" aframe-injected="false" data-aframe-inspector-original-camera=""></a-entity>
+
+</a-scene>
+
+
+</body></html>
