@@ -29,8 +29,9 @@
 	<script type="text/javascript" src="./asteroids/js/main.js"></script>
 	
 	
-	<script src="./components/aframe-teleport-controls.min.js"></script>
+	<script src="./components/aframe-teleport-controls.js"></script>
 	<script src="./components/aframe-input-mapping-component.js"></script>
+	<script src="./js/mappings.js"></script>
 	
 </head>
 <body class="a-body ">
@@ -40,28 +41,6 @@
 <script>
 	var game = new Game();
 	game.run();
-	
-	var mappings = {
-		mappings: {
-			default: {
-			common: {
-				trackpaddown: 'teleportstart',
-				trackpadup: 'teleportend'
-			},
-			'oculus-touch-controls': {
-				thumbstickdown: 'teleportstart',
-				thumbstickup: 'teleportend'
-			},
-			keyboard: {
-			't_down': 'teleportstart',
-			't_up': 'teleportend'
-			}
-		}
-	}
-	};
-
-	AFRAME.registerInputMappings(mappings);
-	
 </script>
 		
 <a-scene background="color:#5f5f5f" class="fullscreen" keyboard-shortcuts="" screenshot="" vr-mode-ui="" shadow="autoUpdate: true; type:pcfsoft" stats="">
