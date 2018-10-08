@@ -7,7 +7,7 @@
 
 		
 	<script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
-	<script  src="https://rawgit.com/fernandojsg/aframe-input-mapping-component/master/dist/aframe-input-mapping-component.min.js"></script>
+	
 	<script src="./components/camera-cube-env.js"></script>
 
 	<link rel="stylesheet" href="./asteroids/css/style.css">
@@ -29,7 +29,8 @@
 	<script type="text/javascript" src="./asteroids/js/main.js"></script>
 	
 	
-	<script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
+	<script src="./components/aframe-teleport-controls.min.js"></script>
+	<script src="./components/aframe-input-mapping-component.js"></script>
 	
 </head>
 <body class="a-body ">
@@ -41,24 +42,22 @@
 	game.run();
 	
 	var mappings = {
-		default: {
-			'vive-controls': {
+		mappings: {
+			default: {
+			common: {
 				trackpaddown: 'teleportstart',
 				trackpadup: 'teleportend'
 			},
-
 			'oculus-touch-controls': {
-				//abuttondown: 'toggleMenu',
-				xbuttondown: 'teleportstart',
-				xbuttonup: 'teleportend',
-				abuttondown: 'teleportstart',
-				abuttonend: 'teleportend'
+				thumbstickdown: 'teleportstart',
+				thumbstickup: 'teleportend'
 			},
-
-			'windows-motion-controls': {
-				menudown: 'toggleMenu'
+			keyboard: {
+			't_down': 'teleportstart',
+			't_up': 'teleportend'
 			}
 		}
+	}
 	};
 
 	AFRAME.registerInputMappings(mappings);
