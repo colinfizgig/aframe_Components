@@ -28,7 +28,7 @@
 	<script type="text/javascript" src="./asteroids/js/canvas.js"></script>
 	<script type="text/javascript" src="./asteroids/js/main.js"></script>
 	
-	
+	<script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v4.2.0/dist/aframe-extras.min.js"></script>
 	<script src="./components/aframe-teleport-controls.js"></script>
 	
 </head>
@@ -69,15 +69,15 @@
  
  <a-entity light="type:hemisphere;groundColor:#4a4137;color:#ceeaf7;angle:0;distance:100;decay:0;intensity:0.53" rotation="0 0 0.01" visible=""></a-entity>
 
- <a-entity id="cameraRig">
-        <a-entity id="head" camera wasd-controls look-controls></a-entity>
-        <a-entity teleport-controls="cameraRig: #cameraRig; button: trigger;"
+ <a-entity id="rig" movement-controls="controls: keyboard, touch; speed: 0.1" position="0 0 0">
+        <a-entity id="head" camera position="0 1.6 0" look-controls="pointerLockEnabled: true"></a-entity>
+        <a-entity teleport-controls="cameraRig: #rig; button: trigger;"
           vive-controls="hand: left"
           oculus-touch-controls="hand: left"
           microsoft-motion-controls="hand: left"
           daydream-controls="left" gearvr-controls="left">
         </a-entity>
-        <a-entity teleport-controls="cameraRig: #cameraRig; button: trigger;"
+        <a-entity teleport-controls="cameraRig: #rig; button: trigger;"
           vive-controls="hand: right"
           microsoft-motion-controls="hand: right"
           oculus-touch-controls="hand: right"
