@@ -7,7 +7,7 @@
 
 		
 	<script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
-	<script src="./aframe-effects.min.js"></script>
+	<script  src="https://rawgit.com/fernandojsg/aframe-input-mapping-component/master/dist/aframe-input-mapping-component.min.js"></script>
 	<script src="./camera-cube-env.js"></script>
 
 	<link rel="stylesheet" href="./asteroids/css/style.css">
@@ -28,6 +28,9 @@
 	<script type="text/javascript" src="./asteroids/js/canvas.js"></script>
 	<script type="text/javascript" src="./asteroids/js/main.js"></script>
 	
+	
+	<script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
+	
 </head>
 <body class="a-body ">
 
@@ -36,15 +39,29 @@
 <script>
 	var game = new Game();
 	game.run();
+	
+	var mappings = {
+		default: {
+			'vive-controls': {
+				trackpaddown: 'teleport'
+			},
 
+			'oculus-touch-controls': {
+				//abuttondown: 'toggleMenu',
+				xbuttondown: 'teleport'
+			},
+
+			'windows-motion-controls': {
+				menudown: 'toggleMenu'
+			}
+		}
+	};
+
+	AFRAME.registerInputMappings(mappings);
+	
 </script>
 		
-<a-scene background="color:#5f5f5f" class="fullscreen" keyboard-shortcuts="" screenshot="" vr-mode-ui="" shadow="autoUpdate: true; type:pcfsoft" stats=""
-	antialias="false"
-    effects="bloom"
-    bloom="filter: bloom!, bloom.filter, #customFilter(bloom_texture 0.3 0.6 0.5); strength: 0.5; radius:1.2"
- 
-	>
+<a-scene background="color:#5f5f5f" class="fullscreen" keyboard-shortcuts="" screenshot="" vr-mode-ui="" shadow="autoUpdate: true; type:pcfsoft" stats="">
 
 <a-assets>
 	<img id="sky" src="./textures/sky.jpg">
@@ -72,7 +89,14 @@
  
  <a-entity light="type:hemisphere;groundColor:#4a4137;color:#ceeaf7;angle:0;distance:100;decay:0;intensity:0.53" rotation="0 0 0.01" visible=""></a-entity>
  
- <a-entity camera="active:true" position="-2.6857843417985645 1.76 -1.2703126108005907" rotation="2.4064227395494577 2.52101429857562 0" look-controls="" wasd-controls="" aframe-injected="false" data-aframe-inspector-original-camera=""></a-entity>
+ <a-entity id="cameraRig" position="0 0 0">
+      <!-- camera -->
+      <a-entity id="head" position="0 1.6 0" camera wasd-controls look-controls></a-entity>
+      <!-- hand controls -->
+	  
+	  <a-entity id="left-hand" oculus-touch-controls="hand: left" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head;"></a-entity>
+	  <a-entity id="right-hand" oculus-touch-controls="hand: right" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head;"></a-entity>
+ </a-entity>
 
 </a-scene>
 
