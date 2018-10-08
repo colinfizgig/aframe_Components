@@ -8,7 +8,7 @@
 		
 	<script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
 	<script  src="https://rawgit.com/fernandojsg/aframe-input-mapping-component/master/dist/aframe-input-mapping-component.min.js"></script>
-	<script src="./camera-cube-env.js"></script>
+	<script src="./components/camera-cube-env.js"></script>
 
 	<link rel="stylesheet" href="./asteroids/css/style.css">
 	<script type="text/javascript" src="./asteroids/js/libs/class.js"></script>
@@ -43,12 +43,16 @@
 	var mappings = {
 		default: {
 			'vive-controls': {
-				trackpaddown: 'teleport'
+				trackpaddown: 'teleportstart',
+				trackpadup: 'teleportend'
 			},
 
 			'oculus-touch-controls': {
 				//abuttondown: 'toggleMenu',
-				xbuttondown: 'teleport'
+				xbuttondown: 'teleportstart',
+				xbuttonup: 'teleportend',
+				abuttondown: 'teleportstart',
+				abuttonend: 'teleportend'
 			},
 
 			'windows-motion-controls': {
@@ -81,7 +85,7 @@
 </a-entity>
 
 
-<a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"  material="" geometry="" scale="100 100 1" shadow="cast:false; receive: true"></a-plane>
+<a-plane id="floor" position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"  material="" geometry="" scale="100 100 1" shadow="cast:false; receive: true"></a-plane>
 
  
  
@@ -94,8 +98,32 @@
       <a-entity id="head" position="0 1.6 0" camera wasd-controls look-controls></a-entity>
       <!-- hand controls -->
 	  
-	  <a-entity id="left-hand" oculus-touch-controls="hand: left" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head;"></a-entity>
-	  <a-entity id="right-hand" oculus-touch-controls="hand: right" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head;"></a-entity>
+	  <a-entity id="left-hand"
+                  teleport-controls="collisionEntities: #floor;
+                  startEvents: teleportstart; endEvents: teleportend;
+				  button: trigger;
+                  curveHitColor: #ff9999;
+                  curveMissColor: #ff0000;
+                  cameraRig: #cameraRig;
+                  maxLength: 30"
+                  vive-controls="hand: left"
+                  oculus-touch-controls="hand: left"
+                  microsoft-motion-controls="hand: left"
+                  daydream-controls="left" gearvr-controls="left">
+        </a-entity>
+        <a-entity id="right-hand"
+                  teleport-controls="collisionEntities: #floor;
+                  startEvents: teleportstart; endEvents: teleportend;
+                  button: trigger;
+                  cameraRig: #cameraRig;
+                  teleportOrigin: #head;
+                  curveHitColor: #9999ff;
+                  curveMissColor: #ff0000"
+				vive-controls="hand: right"
+				microsoft-motion-controls="hand: right"
+				oculus-touch-controls="hand: right"
+				daydream-controls="right" gearvr-controls="right">
+        </a-entity>
  </a-entity>
 
 </a-scene>
