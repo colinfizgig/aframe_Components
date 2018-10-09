@@ -1,0 +1,232 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+<meta charset="utf-8" />
+<title>Hello, World! • A-Frame</title>
+<meta name="description" content="Hello, World! • A-Frame" />
+	<link rel="stylesheet" href="./asteroids/css/style.css">
+
+		
+	<script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+	
+	<script src="./components/camera-cube-env.js"></script>
+
+	<link rel="stylesheet" href="./asteroids/css/style.css">
+	<script type="text/javascript" src="./asteroids/js/libs/class.js"></script>
+	<script type="text/javascript" src="./asteroids/js/state.js"></script>
+	<script type="text/javascript" src="./asteroids/js/points.js"></script>
+	<script type="text/javascript" src="./asteroids/js/audios.js"></script>
+	<script type="text/javascript" src="./asteroids/js/soundEffect.js"></script>
+	<script type="text/javascript" src="./asteroids/js/gameState.js"></script>
+	<script type="text/javascript" src="./asteroids/js/menuState.js"></script>
+	<script type="text/javascript" src="./asteroids/js/endState.js"></script>
+	<script type="text/javascript" src="./asteroids/js/input.js"></script>
+	<script type="text/javascript" src="./asteroids/js/polygon.js"></script>
+	<script type="text/javascript" src="./asteroids/js/asteroid.js"></script>
+	<script type="text/javascript" src="./asteroids/js/debris.js"></script>
+	<script type="text/javascript" src="./asteroids/js/ship.js"></script>
+	<script type="text/javascript" src="./asteroids/js/bullet.js"></script>
+	<script type="text/javascript" src="./asteroids/js/canvas.js"></script>
+	<script type="text/javascript" src="./asteroids/js/main.js"></script>
+	
+	<script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v4.2.0/dist/aframe-extras.min.js"></script>
+	<script src="./components/aframe-input-mapping-component.js"></script>
+	<script src="./components/aframe-teleport-controls.min.js"></script>
+	
+</head>
+<body class="a-body ">
+
+<input type="text" id="namefield">
+
+<script>
+	var game = new Game();
+	game.run();
+</script>
+		
+<a-scene background="color:#5f5f5f" class="fullscreen" keyboard-shortcuts="" screenshot="" vr-mode-ui="" shadow="autoUpdate: true; type:pcfsoft" stats="">
+
+<a-assets>
+	<img id="sky" src="./textures/sky.jpg">
+	
+	<a-asset-item id="cabinet" src="./asteroids/AsteroidsCabinetMerged.glb"></a-asset-item>
+	<a-asset-item id="screen" src="./asteroids/Screen1.obj"></a-asset-item>
+
+</a-assets>
+
+<a-sky src="#sky" material="" geometry="" rotation="0 90 0"></a-sky>
+
+<a-entity id="AsteroidsCabinet" position="-3.09 0 -3">
+	<a-entity gltf-model="#cabinet" camera-cube-env="resolution:256; interval: 1000" shadow="" position="0 0 0" scale="1 1 1"></a-entity>
+
+	<a-entity obj-model="obj:#screen" position="0 0 0" scale="0.01 0.01 0.01" id="gamescreen" material="src:#asteroids; shader:flat"></a-entity>
+	
+</a-entity>
+
+
+<a-plane id="floor" position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"  material="" geometry="" scale="100 100 1" shadow="cast:false; receive: true"></a-plane>
+
+ 
+ 
+ <a-entity position="-6.615488226501929 6.075291694641248 3.45" id="spotlight" light="castShadow:true;target:#AsteroidsCabinet;angle:0;shadowCameraFov:40;shadowCameraFar:492.95;shadowCameraTop:10;shadowCameraRight:10;shadowCameraBottom:-10;shadowCameraLeft:-10"></a-entity>
+ 
+ <a-entity light="type:hemisphere;groundColor:#4a4137;color:#ceeaf7;angle:0;distance:100;decay:0;intensity:0.53" rotation="0 0 0.01" visible=""></a-entity>
+
+ <a-entity id="rig" movement-controls="controls: keyboard, touch; speed: 0.1" position="0 0 0">
+        <a-entity id="head" camera position="0 1.6 0" look-controls="pointerLockEnabled: true"></a-entity>
+        <a-entity teleport-controls="cameraRig: #rig; aimEvent: aim; teleportEvent: teleport"
+          vive-controls="hand: left"
+          oculus-touch-controls="hand: left"
+          microsoft-motion-controls="hand: left"
+          daydream-controls="left" gearvr-controls="left">
+        </a-entity>
+        <a-entity teleport-controls="cameraRig: #rig; button: trigger; aimEvent: aim; teleportEvent: teleport"
+          vive-controls="hand: right"
+          microsoft-motion-controls="hand: right"
+          oculus-touch-controls="hand: right"
+          daydream-controls="right" gearvr-controls="right">
+        </a-entity>
+  </a-entity>
+
+</a-scene>
+
+<script>
+  var scene = document.querySelector('a-scene');
+
+  if (scene.hasLoaded) {
+    init();
+  } else {
+    scene.addEventListener('loaded', init);
+  }
+
+  // To be exposed by the application
+  var inputActions = {
+    task1: {
+      changeTask: { label: 'Change task' },
+      logdefault: { label: 'Test Log' },
+      logtask1: { label: 'Test Log Task 1' },
+      logtask2: { label: 'Test Log Task 2' },
+      lefthand: { label: 'Left hand' },
+      righthand: { label: 'Right hand' },
+      longpress: { label: 'Long press' },
+      doubletouch: { label: 'Double touch' },
+      doublepress: { label: 'Double press' },
+	  aim: { label: 'Start Teleport' },
+	  teleport: { label: 'End Teleport' }
+    },
+    task2: {
+      changeTask: { label: 'Change task' },
+      logtask2: { label: 'Test Log Task 2' },
+	  aim: { label: 'Start Teleport' },
+	  teleport: { label: 'End Teleport' },
+	  righthand: { label: 'Right hand' },
+      lefthand: { label: 'Left hand' }
+    }
+  }
+
+  AFRAME.registerInputActions(inputActions, 'task1');
+
+  // Could be defined by default by the app or the user, custom UI, external request, etc.
+  var mappings = {
+    behaviours: {
+      default: {
+        'vive-controls': {
+          trackpad: 'dpad'
+        }
+      }
+    },
+    mappings: {
+      task1: {
+        common: {
+          triggerdown: {left: 'lefthand', right: 'righthand'}
+        },
+        'vive-controls': {
+          'grip.down': 'changeTask',
+          'trackpad.down': 'logtask1',
+          'trackpad.doubletouch': 'doubletouch',
+          'trackpad.doublepress': 'doublepress',
+          // Activators for down, up, touchstart and touchend are optionals you can just write the event without the .
+          'trackpaddpadleftdown': 'dpadleft',
+          'trackpaddpadright.longpress': 'dpadrightlong'
+        },
+        'oculus-touch-controls': {
+          'abutton.down': 'changeTask',
+		  'trigger.down': 'aim',
+		  'trigger.up': 'teleport'
+        },
+        'windows-motion-controls': {
+          'grip.down': 'changeTask'
+        },
+        keyboard: {
+          't_down': 'aim',
+		  't_up': 'teleport',
+          'c_up': 'changeTask'
+        }
+      },
+      task2: {
+        'vive-controls': {
+          'trigger.down': 'logtask2',
+          'grip.down': 'changeTask'
+        },
+        'oculus-touch-controls': {
+          'trigger.down': 'aim',
+		  'trigger.up': 'teleport',
+          'abutton.down': 'changeTask'
+        },
+        'windows-motion-controls': {
+          'trigger.down': 'logtask2',
+          'grip.down': 'changeTask'
+        },
+        keyboard: {
+          'y_up': 'logtask2',
+          'c_up': 'changeTask',
+		  't_down': 'aim',
+		  't_up': 'teleport',
+        }
+      }
+    }
+  };
+
+  //var buttonsText = document.getElementById('textbuttons');
+  //var mappingText = document.getElementById('textmapping');
+  var lastTimeout = null;
+
+  function drawText(message) {
+    //buttonsText.setAttribute('text', {value: message});
+    //clearTimeout(lastTimeout);
+    //lastTimeout = setTimeout(() => {
+      //buttonsText.setAttribute('text', {value: ''});
+    //}, 1000);
+  }
+
+  function init()
+  {
+	AFRAME.registerInputMappings(mappings);
+    AFRAME.currentInputMapping = 'task1';
+	  
+    function logEvent (event) {
+      var type = event.type;
+      var currentMappingActions = AFRAME.inputActions[AFRAME.currentInputMapping];
+      var text = currentMappingActions[type] ? currentMappingActions[type].label : type;
+
+      console.log(text);
+      //drawText(text);
+    }
+    
+    //mappingText.setAttribute('text', {value: 'Current mapping: ' + AFRAME.currentInputMapping});
+    var keys = Object.keys(inputActions);
+    scene.addEventListener('changeTask', function(evt) {
+      var next = (keys.indexOf(AFRAME.currentInputMapping) + 1) % keys.length;
+      AFRAME.currentInputMapping = keys[next];
+      //mappingText.setAttribute('text', {value: 'Current mapping: ' + AFRAME.currentInputMapping});
+      logEvent(evt);
+    });
+
+    var events = ['dpadleft', 'dpadrightlong', 'dpad', 'logtask1', 'logtask2', 'logdefault', 'righthand', 'lefthand', 'doubletouch', 'doublepress', 'longpress'];
+    for (var i = 0; i < events.length; i++) {
+      scene.addEventListener(events[i], function(event) { 
+        logEvent(event); 
+      });
+    }
+  }
+
+  </script>
+</body></html>
