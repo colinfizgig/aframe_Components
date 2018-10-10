@@ -40,6 +40,152 @@
 	var game = new Game();
 	game.run();
 </script>
+
+<script>
+
+	// code to bind keyEvents to other events
+	// this is a hack to inject control by VR control into
+	// html5 keyboard canvas games that use keyboard events.
+	keySim = {};
+	keySim.keydown = function(k) {
+		var oEvent = document.createEvent('KeyboardEvent');
+
+			// Chromium Hack
+			Object.defineProperty(oEvent, 'keyCode', {
+				get : function() {
+					return this.keyCodeVal;
+				}
+			});     
+			Object.defineProperty(oEvent, 'which', {
+				get : function() {
+					return this.keyCodeVal;
+				}
+			});     
+
+			if (oEvent.initKeyboardEvent) {
+				oEvent.initKeyboardEvent("keydown", true, true, document.defaultView, false, false, false, false, k, k);
+			} else {
+				oEvent.initKeyEvent("keydown", true, true, document.defaultView, false, false, false, false, k, 0);
+			}
+
+			oEvent.keyCodeVal = k;
+
+			if (oEvent.keyCode !== k) {
+				alert("keyCode mismatch " + oEvent.keyCode + "(" + oEvent.which + ")");
+			}
+
+			document.dispatchEvent(oEvent);
+		}
+			
+		// keyup
+			
+		keySim.keyup = function(k) {
+			var oEvent2 = document.createEvent('KeyboardEvent');
+
+				// Chromium Hack
+				Object.defineProperty(oEvent2, 'keyCode', {
+					get : function() {
+						return this.keyCodeVal;
+					}
+				});     
+				Object.defineProperty(oEvent2, 'which', {
+					get : function() {
+						return this.keyCodeVal;
+					}
+				});     
+
+				if (oEvent2.initKeyboardEvent) {
+					oEvent2.initKeyboardEvent("keyup", true, true, document.defaultView, false, false, false, false, k, k);
+				} else {
+					oEvent2.initKeyEvent("keyup", true, true, document.defaultView, false, false, false, false, k, 0);
+				}
+
+			oEvent2.keyCodeVal = k;
+
+			if (oEvent2.keyCode !== k) {
+				alert("keyCode mismatch " + oEvent2.keyCode + "(" + oEvent2.which + ")");
+			}
+
+			document.dispatchEvent(oEvent2);
+		}
+		
+		// event handlers for controllers below
+		// keys : spacebar = 32, left = 74, right = 76, up = 73, down = 77, enter = 13
+		//
+		AFRAME.registerComponent('x-button-listener', {
+			init: function () {
+				var el = this.el;
+				el.addEventListener('xbuttondown', function (evt) {
+					keySim.keydown(74);
+				});
+				el.addEventListener('xbuttonup', function (evt) {
+					keySim.keyup(74);
+				});
+			}
+		});
+		
+		AFRAME.registerComponent('y-button-listener', {
+			init: function () {
+				var el = this.el;
+				el.addEventListener('ybuttondown', function (evt) {
+					keySim.keydown(76);
+				});
+				el.addEventListener('ybuttonup', function (evt) {
+					keySim.keyup(76);
+				});
+			}
+		});
+		
+		AFRAME.registerComponent('a-button-listener', {
+			init: function () {
+				var el = this.el;
+				el.addEventListener('abuttondown', function (evt) {
+					keySim.keydown(32);
+				});
+				el.addEventListener('abuttonup', function (evt) {
+					keySim.keyup(32);
+				});
+			}
+		});
+		
+		AFRAME.registerComponent('b-button-listener', {
+			init: function () {
+				var el = this.el;
+				el.addEventListener('bbuttondown', function (evt) {
+					keySim.keydown(73);
+				});
+				el.addEventListener('bbuttonup', function (evt) {
+					keySim.keyup(73);
+				});
+			}
+		});
+		
+		AFRAME.registerComponent('surface-listener', {
+			init: function () {
+				var el = this.el;
+				el.addEventListener('surfacedown', function (evt) {
+					keySim.keydown(77);
+				});
+				el.addEventListener('surfaceup', function (evt) {
+					keySim.keyup(77);
+				});
+			}
+		});
+		
+		AFRAME.registerComponent('grip-listener', {
+			init: function () {
+				var el = this.el;
+				el.addEventListener('gripdown', function (evt) {
+					keySim.keydown(13);
+				});
+				el.addEventListener('gripup', function (evt) {
+					keySim.keyup(13);
+				});
+			}
+		});
+		
+			
+</script>
 		
 <a-scene background="color:#5f5f5f" class="fullscreen" keyboard-shortcuts="" screenshot="" vr-mode-ui="" shadow="autoUpdate: true; type:pcfsoft" stats="">
 
@@ -67,7 +213,7 @@
  
  <a-entity position="-6.615488226501929 6.075291694641248 3.45" id="spotlight" light="castShadow:true;target:#AsteroidsCabinet;angle:0;shadowCameraFov:40;shadowCameraFar:492.95;shadowCameraTop:10;shadowCameraRight:10;shadowCameraBottom:-10;shadowCameraLeft:-10"></a-entity>
  
- <a-entity light="type:hemisphere;groundColor:#4a4137;color:#ceeaf7;angle:0;distance:100;decay:0;intensity:0.53" rotation="0 0 0.01" visible=""></a-entity>
+ <a-entity light="type:hemisphere;groundColor:#4a4137;color:#ceeaf7;angle:0;distance:100;decay:0;intensity:0.5" rotation="0 0 0.01" visible=""></a-entity>
 
  <a-entity id="rig" movement-controls="controls: keyboard, touch; speed: 0.1" position="0 0 0">
         <a-entity id="head" camera position="0 1.6 0" look-controls="pointerLockEnabled: true"></a-entity>
@@ -75,13 +221,15 @@
           vive-controls="hand: left"
           oculus-touch-controls="hand: left"
           microsoft-motion-controls="hand: left"
-          daydream-controls="left" gearvr-controls="left">
+          daydream-controls="left" gearvr-controls="left"
+		  x-button-listener y-button-listener>
         </a-entity>
         <a-entity teleport-controls="cameraRig: #rig; button: trigger;"
           vive-controls="hand: right"
           microsoft-motion-controls="hand: right"
           oculus-touch-controls="hand: right"
-          daydream-controls="right" gearvr-controls="right">
+          daydream-controls="right" gearvr-controls="right"
+		  a-button-listener b-button-listener grip-listener surface-listener>
         </a-entity>
   </a-entity>
 

@@ -36,6 +36,7 @@ AFRAME.registerComponent('camera-cube-env', {
 					}
 	            });
 	          }
+			  
 	  },
 	  
 	  tick: function(t,dt){

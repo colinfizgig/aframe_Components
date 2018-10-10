@@ -30,6 +30,7 @@ var MenuState = State.extend({
 	handleInputs: function(input){
 		if (input.isPressed("spacebar")) {
 			this.game.nextState = States.GAME;
+			console.log("test");
 		}
 	},
 	update: function(){

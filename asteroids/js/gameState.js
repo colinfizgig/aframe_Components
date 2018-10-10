@@ -81,9 +81,10 @@ var GameState = State.extend({
 					this.game.stateVars.score = this.score;
 					return;
 				}
+				
 				this.ship.visible = true;
 			}
-
+			
 			return;
 		}
 
