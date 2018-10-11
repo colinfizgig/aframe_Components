@@ -29,7 +29,6 @@
 	<script type="text/javascript" src="./asteroids/js/main.js"></script>
 	
 	<script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v4.2.0/dist/aframe-extras.min.js"></script>
-	<script src="./components/aframe-input-mapping-component.js"></script>
 	<script src="./components/aframe-teleport-controls.js"></script>
 	<script src="./components/aframe-thumb-controls-component.min.js"></script>
 	
@@ -45,203 +44,7 @@
 
 <script>
 	// set up mapping of events for input-mapping component.
-	  var scene = document.querySelector('a-scene');
-
-	  if (scene.hasLoaded) {
-		init();
-	  } else {
-		scene.addEventListener('loaded', init);
-	  }
-
-	  // To be exposed by the application
-	  var inputActions = {
-		controlAsteroids: {
-		  changeTask: { label: 'Change task' },
-		  left: { label: 'hit j key' },
-		  endleft: { label: 'release j key'},
-		  right: { label: 'hit l key' },
-		  endright: { label: 'release l key' },
-		  fire: { label: 'hit space bar' },
-		  endfire: { label: 'release space bar' },
-		  forward: { label: 'hit i key' },
-		  endforward: {label: 'release i key' },
-		  stop: { label: 'hit m key' },
-		  endstop: { label: 'release m key' },
-		  enter: { label: 'hit enter key' },
-		  endenter: {label: 'release enter key' },
-		  righthand: { label: 'Right hand' },
-		  lefthand: { label: 'Left hand' }
-		},
-		otherTasks: {
-		  changeTask: { label: 'Change task' },
-		  aim: { label: 'Start Teleport' },
-		  teleport: { label: 'End Teleport' },
-		  righthand: { label: 'Right hand' },
-		  lefthand: { label: 'Left hand' }
-		}
-	  }
-
-	  AFRAME.registerInputActions(inputActions, 'controlAsteroids');
-
-	  // Could be defined by default by the app or the user, custom UI, external request, etc.
-	  var mappings = {
-		behaviours: {
-		  default: {
-			'vive-controls': {
-			  trackpad: 'dpad'
-			}
-		  }
-		},
-		mappings: {
-		  controlAsteroids: {
-			common: {
-			  triggerdown: {left: 'aim', right: 'aim'},
-			  triggerup: {left: 'teleport', right: 'teleport'}
-			},
-			'vive-controls': {
-			  'grip.down': 'changeTask',
-			  'thumbleftstart': 'left',
-			  'thumbleftend': 'endleft',
-			  'thumbrightstart': 'right',
-			  'thumbrightend': 'endright',
-			  'thumbupstart': 'forward',
-			  'thumbupend': 'endforward',
-			  'thumbdownstart': 'stop',
-			  'thumbdownend': 'endstop',
-			  'menudown': 'fire',
-			  'menuup': 'endfire',
-			  'systemdown': 'enter',
-			  'systemup': 'endenter'
-			},
-			'oculus-touch-controls': {
-			  'ybutton.down': 'changeTask',
-			  'thumbleftstart': 'left',
-			  'thumbleftend': 'endleft',
-			  'thumbrightstart': 'right',
-			  'thumbrightend': 'endright',
-			  'thumbupstart': 'forward',
-			  'thumbupend': 'endforward',
-			  'thumbdownstart': 'stop',
-			  'thumbdownend': 'endstop',
-			  'abutton.down': 'fire',
-			  'abutton.up': 'endfire',
-			  'grip.down': 'enter',
-			  'grip.up': 'endenter',
-			  'trigger.down': 'aim',
-			  'trigger.up': 'teleport'
-			},
-			'windows-motion-controls': {
-			  'grip.down': 'changeTask'
-			}
-		  },
-		  otherTasks: {
-			'vive-controls': {
-			  'trigger.down': 'aim',
-			  'trigger.up': 'teleport',
-			  'grip.down': 'changeTask'
-			},
-			'oculus-touch-controls': {
-			  'trigger.down': 'aim',
-			  'trigger.up': 'teleport',
-			  'ybutton.down': 'changeTask'
-			},
-			'windows-motion-controls': {
-			  'trigger.down': 'aim',
-			  'trigger.up': 'teleport',
-			  'grip.down': 'changeTask'
-			}
-		  }
-		}
-	  };
-
-
-	  function init()
-	  {
-		AFRAME.registerInputMappings(mappings);
-		AFRAME.currentInputMapping = 'controlAsteroids';
-		  
-		function logEvent (event) {
-		  var type = event.type;
-		  var currentMappingActions = AFRAME.inputActions[AFRAME.currentInputMapping];
-		  var text = currentMappingActions[type] ? currentMappingActions[type].label : type;
-
-		}
-		
-		//mappingText.setAttribute('text', {value: 'Current mapping: ' + AFRAME.currentInputMapping});
-		var keys = Object.keys(inputActions);
-		scene.addEventListener('changeTask', function(evt) {
-		  var next = (keys.indexOf(AFRAME.currentInputMapping) + 1) % keys.length;
-		  AFRAME.currentInputMapping = keys[next];
-		  //mappingText.setAttribute('text', {value: 'Current mapping: ' + AFRAME.currentInputMapping});
-		  logEvent(evt);
-		});
-
-		var events = ['dpad', 'righthand', 'lefthand'];
-		
-		for (var i = 0; i < events.length; i++) {
-		  scene.addEventListener(events[i], function(event) { 
-			logEvent(event); 
-		  });
-		}
-		
-		// event handlers for controllers below
-		// keys : spacebar = 32, left = 74, right = 76, up = 73, down = 77, enter = 13
-		//
-		AFRAME.registerComponent('thumbStick-listener', {
-			init: function () {
-				var el = this.el;
-				el.addEventListener('left', function (evt) {
-					keySim.keydown(74);
-				});
-				el.addEventListener('endleft', function (evt) {
-					keySim.keyup(74);
-				});
-				el.addEventListener('right', function (evt) {
-					keySim.keydown(76);
-				});
-				el.addEventListener('endright', function (evt) {
-					keySim.keyup(76);
-				});
-				el.addEventListener('forward', function (evt) {
-					keySim.keydown(73);
-				});
-				el.addEventListener('endforward', function (evt) {
-					keySim.keyup(73);
-				});
-				el.addEventListener('stop', function (evt) {
-					keySim.keydown(77);
-				});
-				el.addEventListener('endstop', function (evt) {
-					keySim.keyup(77);
-				});
-			}
-		});
-		
-		AFRAME.registerComponent('grip-listener', {
-			init: function () {
-				var el = this.el;
-				el.addEventListener('enter', function (evt) {
-					keySim.keydown(13);
-				});
-				el.addEventListener('endenter', function (evt) {
-					keySim.keyup(13);
-				});
-			}
-		});
-		
-		AFRAME.registerComponent('space-listener', {
-			init: function () {
-				var el = this.el;
-				el.addEventListener('fire', function (evt) {
-					keySim.keydown(32);
-				});
-				el.addEventListener('endfire', function (evt) {
-					keySim.keyup(32);
-				});
-			}
-		});
-		
-	  }
+	  
 	//---------------------------------------------------------------
 	// code to bind keyEvents to other events
 	// this is a hack to inject control by VR control into
@@ -313,27 +116,46 @@
 		// event handlers for controllers below
 		// keys : spacebar = 32, left = 74, right = 76, up = 73, down = 77, enter = 13
 		//
-		/*
-		AFRAME.registerComponent('x-button-listener', {
+		
+		AFRAME.registerComponent('thumbStick-listener', {
 			init: function () {
 				var el = this.el;
-				el.addEventListener('xbuttondown', function (evt) {
+				el.addEventListener('thumbleftstart', function (evt) {
 					keySim.keydown(74);
 				});
-				el.addEventListener('xbuttonup', function (evt) {
+				el.addEventListener('thumbleftend', function (evt) {
 					keySim.keyup(74);
+				});
+				el.addEventListener('thumbrightstart', function (evt) {
+					keySim.keydown(76);
+				});
+				el.addEventListener('thumbrightend', function (evt) {
+					keySim.keyup(76);
+				});
+				el.addEventListener('thumbupstart', function (evt) {
+					keySim.keydown(73);
+				});
+				el.addEventListener('thumbupend', function (evt) {
+					keySim.keyup(73);
+				});
+				el.addEventListener('thumbdownstart', function (evt) {
+					keySim.keydown(77);
+				});
+				el.addEventListener('thumbdownend', function (evt) {
+					keySim.keyup(77);
 				});
 			}
 		});
+
 		
 		AFRAME.registerComponent('y-button-listener', {
 			init: function () {
 				var el = this.el;
 				el.addEventListener('ybuttondown', function (evt) {
-					keySim.keydown(76);
+					keySim.keydown(13);
 				});
 				el.addEventListener('ybuttonup', function (evt) {
-					keySim.keyup(76);
+					keySim.keyup(13);
 				});
 			}
 		});
@@ -354,38 +176,26 @@
 			init: function () {
 				var el = this.el;
 				el.addEventListener('bbuttondown', function (evt) {
-					keySim.keydown(73);
-				});
-				el.addEventListener('bbuttonup', function (evt) {
-					keySim.keyup(73);
-				});
-			}
-		});
-		
-		AFRAME.registerComponent('surface-listener', {
-			init: function () {
-				var el = this.el;
-				el.addEventListener('surfacedown', function (evt) {
-					keySim.keydown(77);
-				});
-				el.addEventListener('surfaceup', function (evt) {
-					keySim.keyup(77);
-				});
-			}
-		});
-		
-		AFRAME.registerComponent('grip-listener', {
-			init: function () {
-				var el = this.el;
-				el.addEventListener('gripdown', function (evt) {
 					keySim.keydown(13);
 				});
-				el.addEventListener('gripup', function (evt) {
+				el.addEventListener('bbuttonup', function (evt) {
 					keySim.keyup(13);
 				});
 			}
 		});
-		*/
+		
+		AFRAME.registerComponent('x-button-listener', {
+			init: function () {
+				var el = this.el;
+				el.addEventListener('gripdown', function (evt) {
+					keySim.keydown(32);
+				});
+				el.addEventListener('gripup', function (evt) {
+					keySim.keyup(32);
+				});
+			}
+		});
+
 			
 </script>
 		
@@ -425,7 +235,7 @@
           microsoft-motion-controls="hand: left"
           daydream-controls="left" gearvr-controls="left"
 		  thumb-controls="hand: left"
-		  thumbStick-listener grip-listener>
+		  thumbStick-listener grip-listener x-button-listener y-button-listener>
         </a-entity>
         <a-entity teleport-controls="cameraRig: #rig; button: trigger;"
           vive-controls="hand: right"
@@ -433,7 +243,7 @@
           oculus-touch-controls="hand: right"
           daydream-controls="right" gearvr-controls="right"
 		  thumb-controls="hand: right"
-		  space-listener grip-listener>
+		  thumbStick-listener grip-listener a-button-listener b-button-listener>
         </a-entity>
   </a-entity>
 
