@@ -117,35 +117,32 @@
 		// keys : spacebar = 32, left = 74, right = 76, up = 73, down = 77, enter = 13
 		//
 		
-		AFRAME.registerComponent('thumbStick-listener', {
-			init: function () {
-				var el = this.el;
-				el.addEventListener('thumbleftstart', function (evt) {
-					keySim.keydown(74);
-				});
-				el.addEventListener('thumbleftend', function (evt) {
-					keySim.keyup(74);
-				});
-				el.addEventListener('thumbrightstart', function (evt) {
-					keySim.keydown(76);
-				});
-				el.addEventListener('thumbrightend', function (evt) {
-					keySim.keyup(76);
-				});
-				el.addEventListener('thumbupstart', function (evt) {
-					keySim.keydown(73);
-				});
-				el.addEventListener('thumbupend', function (evt) {
-					keySim.keyup(73);
-				});
-				el.addEventListener('thumbdownstart', function (evt) {
-					keySim.keydown(77);
-				});
-				el.addEventListener('thumbdownend', function (evt) {
-					keySim.keyup(77);
-				});
-			}
-		});
+		
+			document.addEventListener('thumbleftstart', function (evt) {
+				keySim.keydown(74);
+			});
+			document.addEventListener('thumbleftend', function (evt) {
+				keySim.keyup(74);
+			});
+			document.addEventListener('thumbrightstart', function (evt) {
+				keySim.keydown(76);
+			});
+			document.addEventListener('thumbrightend', function (evt) {
+				keySim.keyup(76);
+			});
+			document.addEventListener('thumbupstart', function (evt) {
+				keySim.keydown(73);
+			});
+			document.addEventListener('thumbupend', function (evt) {
+				keySim.keyup(73);
+			});
+			document.addEventListener('thumbdownstart', function (evt) {
+				keySim.keydown(77);
+			});
+			document.addEventListener('thumbdownend', function (evt) {
+				keySim.keyup(77);
+			});	
+
 
 		
 		AFRAME.registerComponent('y-button-listener', {
@@ -235,7 +232,7 @@
           microsoft-motion-controls="hand: left"
           daydream-controls="left" gearvr-controls="left"
 		  thumb-controls="hand: left"
-		  thumbStick-listener grip-listener x-button-listener y-button-listener>
+		  grip-listener x-button-listener y-button-listener>
         </a-entity>
         <a-entity teleport-controls="cameraRig: #rig; button: trigger;"
           vive-controls="hand: right"
@@ -243,7 +240,7 @@
           oculus-touch-controls="hand: right"
           daydream-controls="right" gearvr-controls="right"
 		  thumb-controls="hand: right"
-		  thumbStick-listener grip-listener a-button-listener b-button-listener>
+		  grip-listener a-button-listener b-button-listener>
         </a-entity>
   </a-entity>
 
