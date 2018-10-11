@@ -30,7 +30,8 @@
 	
 	<script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v4.2.0/dist/aframe-extras.min.js"></script>
 	<script src="./components/aframe-input-mapping-component.js"></script>
-	<script src="./components/aframe-teleport-controls.min.js"></script>
+	<script src="./components/aframe-teleport-controls.js"></script>
+	<script src="./components/aframe-thumb-controls-component.min.js"></script>
 	
 </head>
 <body class="a-body ">
@@ -40,6 +41,352 @@
 <script>
 	var game = new Game();
 	game.run();
+</script>
+
+<script>
+	// set up mapping of events for input-mapping component.
+	  var scene = document.querySelector('a-scene');
+
+	  if (scene.hasLoaded) {
+		init();
+	  } else {
+		scene.addEventListener('loaded', init);
+	  }
+
+	  // To be exposed by the application
+	  var inputActions = {
+		controlAsteroids: {
+		  changeTask: { label: 'Change task' },
+		  left: { label: 'hit j key' },
+		  endleft: { label: 'release j key'},
+		  right: { label: 'hit l key' },
+		  endright: { label: 'release l key' },
+		  fire: { label: 'hit space bar' },
+		  endfire: { label: 'release space bar' },
+		  forward: { label: 'hit i key' },
+		  endforward: {label: 'release i key' },
+		  stop: { label: 'hit m key' },
+		  endstop: { label: 'release m key' },
+		  enter: { label: 'hit enter key' },
+		  endenter: {label: 'release enter key' },
+		  righthand: { label: 'Right hand' },
+		  lefthand: { label: 'Left hand' }
+		},
+		otherTasks: {
+		  changeTask: { label: 'Change task' },
+		  aim: { label: 'Start Teleport' },
+		  teleport: { label: 'End Teleport' },
+		  righthand: { label: 'Right hand' },
+		  lefthand: { label: 'Left hand' }
+		}
+	  }
+
+	  AFRAME.registerInputActions(inputActions, 'controlAsteroids');
+
+	  // Could be defined by default by the app or the user, custom UI, external request, etc.
+	  var mappings = {
+		behaviours: {
+		  default: {
+			'vive-controls': {
+			  trackpad: 'dpad'
+			}
+		  }
+		},
+		mappings: {
+		  controlAsteroids: {
+			common: {
+			  triggerdown: {left: 'aim', right: 'aim'},
+			  triggerup: {left: 'teleport', right: 'teleport'}
+			},
+			'vive-controls': {
+			  'grip.down': 'changeTask',
+			  'thumbleftstart': 'left',
+			  'thumbleftend': 'endleft',
+			  'thumbrightstart': 'right',
+			  'thumbrightend': 'endright',
+			  'thumbupstart': 'forward',
+			  'thumbupend': 'endforward',
+			  'thumbdownstart': 'stop',
+			  'thumbdownend': 'endstop',
+			  'menudown': 'fire',
+			  'menuup': 'endfire',
+			  'systemdown': 'enter',
+			  'systemup': 'endenter'
+			},
+			'oculus-touch-controls': {
+			  'ybutton.down': 'changeTask',
+			  'thumbleftstart': 'left',
+			  'thumbleftend': 'endleft',
+			  'thumbrightstart': 'right',
+			  'thumbrightend': 'endright',
+			  'thumbupstart': 'forward',
+			  'thumbupend': 'endforward',
+			  'thumbdownstart': 'stop',
+			  'thumbdownend': 'endstop',
+			  'abutton.down': 'fire',
+			  'abutton.up': 'endfire',
+			  'grip.down': 'enter',
+			  'grip.up': 'endenter',
+			  'trigger.down': 'aim',
+			  'trigger.up': 'teleport'
+			},
+			'windows-motion-controls': {
+			  'grip.down': 'changeTask'
+			}
+		  },
+		  otherTasks: {
+			'vive-controls': {
+			  'trigger.down': 'aim',
+			  'trigger.up': 'teleport',
+			  'grip.down': 'changeTask'
+			},
+			'oculus-touch-controls': {
+			  'trigger.down': 'aim',
+			  'trigger.up': 'teleport',
+			  'ybutton.down': 'changeTask'
+			},
+			'windows-motion-controls': {
+			  'trigger.down': 'aim',
+			  'trigger.up': 'teleport',
+			  'grip.down': 'changeTask'
+			}
+		  }
+		}
+	  };
+
+
+	  function init()
+	  {
+		AFRAME.registerInputMappings(mappings);
+		AFRAME.currentInputMapping = 'controlAsteroids';
+		  
+		function logEvent (event) {
+		  var type = event.type;
+		  var currentMappingActions = AFRAME.inputActions[AFRAME.currentInputMapping];
+		  var text = currentMappingActions[type] ? currentMappingActions[type].label : type;
+
+		}
+		
+		//mappingText.setAttribute('text', {value: 'Current mapping: ' + AFRAME.currentInputMapping});
+		var keys = Object.keys(inputActions);
+		scene.addEventListener('changeTask', function(evt) {
+		  var next = (keys.indexOf(AFRAME.currentInputMapping) + 1) % keys.length;
+		  AFRAME.currentInputMapping = keys[next];
+		  //mappingText.setAttribute('text', {value: 'Current mapping: ' + AFRAME.currentInputMapping});
+		  logEvent(evt);
+		});
+
+		var events = ['dpad', 'righthand', 'lefthand'];
+		
+		for (var i = 0; i < events.length; i++) {
+		  scene.addEventListener(events[i], function(event) { 
+			logEvent(event); 
+		  });
+		}
+		
+		// event handlers for controllers below
+		// keys : spacebar = 32, left = 74, right = 76, up = 73, down = 77, enter = 13
+		//
+		AFRAME.registerComponent('thumbStick-listener', {
+			init: function () {
+				var el = this.el;
+				el.addEventListener('left', function (evt) {
+					keySim.keydown(74);
+				});
+				el.addEventListener('endleft', function (evt) {
+					keySim.keyup(74);
+				});
+				el.addEventListener('right', function (evt) {
+					keySim.keydown(76);
+				});
+				el.addEventListener('endright', function (evt) {
+					keySim.keyup(76);
+				});
+				el.addEventListener('forward', function (evt) {
+					keySim.keydown(73);
+				});
+				el.addEventListener('endforward', function (evt) {
+					keySim.keyup(73);
+				});
+				el.addEventListener('stop', function (evt) {
+					keySim.keydown(77);
+				});
+				el.addEventListener('endstop', function (evt) {
+					keySim.keyup(77);
+				});
+			}
+		});
+		
+		AFRAME.registerComponent('grip-listener', {
+			init: function () {
+				var el = this.el;
+				el.addEventListener('enter', function (evt) {
+					keySim.keydown(13);
+				});
+				el.addEventListener('endenter', function (evt) {
+					keySim.keyup(13);
+				});
+			}
+		});
+		
+		AFRAME.registerComponent('space-listener', {
+			init: function () {
+				var el = this.el;
+				el.addEventListener('fire', function (evt) {
+					keySim.keydown(32);
+				});
+				el.addEventListener('endfire', function (evt) {
+					keySim.keyup(32);
+				});
+			}
+		});
+		
+	  }
+	//---------------------------------------------------------------
+	// code to bind keyEvents to other events
+	// this is a hack to inject control by VR control into
+	// html5 keyboard canvas games that use keyboard events.
+	//---------------------------------------------------------------
+	keySim = {};
+	keySim.keydown = function(k) {
+		var oEvent = document.createEvent('KeyboardEvent');
+
+			// Chromium Hack
+			Object.defineProperty(oEvent, 'keyCode', {
+				get : function() {
+					return this.keyCodeVal;
+				}
+			});     
+			Object.defineProperty(oEvent, 'which', {
+				get : function() {
+					return this.keyCodeVal;
+				}
+			});     
+
+			if (oEvent.initKeyboardEvent) {
+				oEvent.initKeyboardEvent("keydown", true, true, document.defaultView, false, false, false, false, k, k);
+			} else {
+				oEvent.initKeyEvent("keydown", true, true, document.defaultView, false, false, false, false, k, 0);
+			}
+
+			oEvent.keyCodeVal = k;
+
+			if (oEvent.keyCode !== k) {
+				alert("keyCode mismatch " + oEvent.keyCode + "(" + oEvent.which + ")");
+			}
+
+			document.dispatchEvent(oEvent);
+		}
+			
+		// keyup
+			
+		keySim.keyup = function(k) {
+			var oEvent2 = document.createEvent('KeyboardEvent');
+
+				// Chromium Hack
+				Object.defineProperty(oEvent2, 'keyCode', {
+					get : function() {
+						return this.keyCodeVal;
+					}
+				});     
+				Object.defineProperty(oEvent2, 'which', {
+					get : function() {
+						return this.keyCodeVal;
+					}
+				});     
+
+				if (oEvent2.initKeyboardEvent) {
+					oEvent2.initKeyboardEvent("keyup", true, true, document.defaultView, false, false, false, false, k, k);
+				} else {
+					oEvent2.initKeyEvent("keyup", true, true, document.defaultView, false, false, false, false, k, 0);
+				}
+
+			oEvent2.keyCodeVal = k;
+
+			if (oEvent2.keyCode !== k) {
+				alert("keyCode mismatch " + oEvent2.keyCode + "(" + oEvent2.which + ")");
+			}
+
+			document.dispatchEvent(oEvent2);
+		}
+		
+		// event handlers for controllers below
+		// keys : spacebar = 32, left = 74, right = 76, up = 73, down = 77, enter = 13
+		//
+		/*
+		AFRAME.registerComponent('x-button-listener', {
+			init: function () {
+				var el = this.el;
+				el.addEventListener('xbuttondown', function (evt) {
+					keySim.keydown(74);
+				});
+				el.addEventListener('xbuttonup', function (evt) {
+					keySim.keyup(74);
+				});
+			}
+		});
+		
+		AFRAME.registerComponent('y-button-listener', {
+			init: function () {
+				var el = this.el;
+				el.addEventListener('ybuttondown', function (evt) {
+					keySim.keydown(76);
+				});
+				el.addEventListener('ybuttonup', function (evt) {
+					keySim.keyup(76);
+				});
+			}
+		});
+		
+		AFRAME.registerComponent('a-button-listener', {
+			init: function () {
+				var el = this.el;
+				el.addEventListener('abuttondown', function (evt) {
+					keySim.keydown(32);
+				});
+				el.addEventListener('abuttonup', function (evt) {
+					keySim.keyup(32);
+				});
+			}
+		});
+		
+		AFRAME.registerComponent('b-button-listener', {
+			init: function () {
+				var el = this.el;
+				el.addEventListener('bbuttondown', function (evt) {
+					keySim.keydown(73);
+				});
+				el.addEventListener('bbuttonup', function (evt) {
+					keySim.keyup(73);
+				});
+			}
+		});
+		
+		AFRAME.registerComponent('surface-listener', {
+			init: function () {
+				var el = this.el;
+				el.addEventListener('surfacedown', function (evt) {
+					keySim.keydown(77);
+				});
+				el.addEventListener('surfaceup', function (evt) {
+					keySim.keyup(77);
+				});
+			}
+		});
+		
+		AFRAME.registerComponent('grip-listener', {
+			init: function () {
+				var el = this.el;
+				el.addEventListener('gripdown', function (evt) {
+					keySim.keydown(13);
+				});
+				el.addEventListener('gripup', function (evt) {
+					keySim.keyup(13);
+				});
+			}
+		});
+		*/
+			
 </script>
 		
 <a-scene background="color:#5f5f5f" class="fullscreen" keyboard-shortcuts="" screenshot="" vr-mode-ui="" shadow="autoUpdate: true; type:pcfsoft" stats="">
@@ -68,165 +415,29 @@
  
  <a-entity position="-6.615488226501929 6.075291694641248 3.45" id="spotlight" light="castShadow:true;target:#AsteroidsCabinet;angle:0;shadowCameraFov:40;shadowCameraFar:492.95;shadowCameraTop:10;shadowCameraRight:10;shadowCameraBottom:-10;shadowCameraLeft:-10"></a-entity>
  
- <a-entity light="type:hemisphere;groundColor:#4a4137;color:#ceeaf7;angle:0;distance:100;decay:0;intensity:0.53" rotation="0 0 0.01" visible=""></a-entity>
+ <a-entity light="type:hemisphere;groundColor:#4a4137;color:#ceeaf7;angle:0;distance:100;decay:0;intensity:0.5" rotation="0 0 0.01" visible=""></a-entity>
 
  <a-entity id="rig" movement-controls="controls: keyboard, touch; speed: 0.1" position="0 0 0">
         <a-entity id="head" camera position="0 1.6 0" look-controls="pointerLockEnabled: true"></a-entity>
-        <a-entity teleport-controls="cameraRig: #rig; aimEvent: aim; teleportEvent: teleport"
+        <a-entity teleport-controls="cameraRig: #rig; button: trigger;"
           vive-controls="hand: left"
           oculus-touch-controls="hand: left"
           microsoft-motion-controls="hand: left"
-          daydream-controls="left" gearvr-controls="left">
+          daydream-controls="left" gearvr-controls="left"
+		  thumb-controls="hand: left"
+		  thumbStick-listener grip-listener>
         </a-entity>
-        <a-entity teleport-controls="cameraRig: #rig; button: trigger; aimEvent: aim; teleportEvent: teleport"
+        <a-entity teleport-controls="cameraRig: #rig; button: trigger;"
           vive-controls="hand: right"
           microsoft-motion-controls="hand: right"
           oculus-touch-controls="hand: right"
-          daydream-controls="right" gearvr-controls="right">
+          daydream-controls="right" gearvr-controls="right"
+		  thumb-controls="hand: right"
+		  space-listener grip-listener>
         </a-entity>
   </a-entity>
 
 </a-scene>
 
-<script>
-  var scene = document.querySelector('a-scene');
 
-  if (scene.hasLoaded) {
-    init();
-  } else {
-    scene.addEventListener('loaded', init);
-  }
-
-  // To be exposed by the application
-  var inputActions = {
-    task1: {
-      changeTask: { label: 'Change task' },
-      logdefault: { label: 'Test Log' },
-      logtask1: { label: 'Test Log Task 1' },
-      logtask2: { label: 'Test Log Task 2' },
-      lefthand: { label: 'Left hand' },
-      righthand: { label: 'Right hand' },
-      longpress: { label: 'Long press' },
-      doubletouch: { label: 'Double touch' },
-      doublepress: { label: 'Double press' },
-	  aim: { label: 'Start Teleport' },
-	  teleport: { label: 'End Teleport' }
-    },
-    task2: {
-      changeTask: { label: 'Change task' },
-      logtask2: { label: 'Test Log Task 2' },
-	  aim: { label: 'Start Teleport' },
-	  teleport: { label: 'End Teleport' },
-	  righthand: { label: 'Right hand' },
-      lefthand: { label: 'Left hand' }
-    }
-  }
-
-  AFRAME.registerInputActions(inputActions, 'task1');
-
-  // Could be defined by default by the app or the user, custom UI, external request, etc.
-  var mappings = {
-    behaviours: {
-      default: {
-        'vive-controls': {
-          trackpad: 'dpad'
-        }
-      }
-    },
-    mappings: {
-      task1: {
-        common: {
-          triggerdown: {left: 'lefthand', right: 'righthand'}
-        },
-        'vive-controls': {
-          'grip.down': 'changeTask',
-          'trackpad.down': 'logtask1',
-          'trackpad.doubletouch': 'doubletouch',
-          'trackpad.doublepress': 'doublepress',
-          // Activators for down, up, touchstart and touchend are optionals you can just write the event without the .
-          'trackpaddpadleftdown': 'dpadleft',
-          'trackpaddpadright.longpress': 'dpadrightlong'
-        },
-        'oculus-touch-controls': {
-          'abutton.down': 'changeTask',
-		  'trigger.down': 'aim',
-		  'trigger.up': 'teleport'
-        },
-        'windows-motion-controls': {
-          'grip.down': 'changeTask'
-        },
-        keyboard: {
-          't_down': 'aim',
-		  't_up': 'teleport',
-          'c_up': 'changeTask'
-        }
-      },
-      task2: {
-        'vive-controls': {
-          'trigger.down': 'logtask2',
-          'grip.down': 'changeTask'
-        },
-        'oculus-touch-controls': {
-          'trigger.down': 'aim',
-		  'trigger.up': 'teleport',
-          'abutton.down': 'changeTask'
-        },
-        'windows-motion-controls': {
-          'trigger.down': 'logtask2',
-          'grip.down': 'changeTask'
-        },
-        keyboard: {
-          'y_up': 'logtask2',
-          'c_up': 'changeTask',
-		  't_down': 'aim',
-		  't_up': 'teleport',
-        }
-      }
-    }
-  };
-
-  //var buttonsText = document.getElementById('textbuttons');
-  //var mappingText = document.getElementById('textmapping');
-  var lastTimeout = null;
-
-  function drawText(message) {
-    //buttonsText.setAttribute('text', {value: message});
-    //clearTimeout(lastTimeout);
-    //lastTimeout = setTimeout(() => {
-      //buttonsText.setAttribute('text', {value: ''});
-    //}, 1000);
-  }
-
-  function init()
-  {
-	AFRAME.registerInputMappings(mappings);
-    AFRAME.currentInputMapping = 'task1';
-	  
-    function logEvent (event) {
-      var type = event.type;
-      var currentMappingActions = AFRAME.inputActions[AFRAME.currentInputMapping];
-      var text = currentMappingActions[type] ? currentMappingActions[type].label : type;
-
-      console.log(text);
-      //drawText(text);
-    }
-    
-    //mappingText.setAttribute('text', {value: 'Current mapping: ' + AFRAME.currentInputMapping});
-    var keys = Object.keys(inputActions);
-    scene.addEventListener('changeTask', function(evt) {
-      var next = (keys.indexOf(AFRAME.currentInputMapping) + 1) % keys.length;
-      AFRAME.currentInputMapping = keys[next];
-      //mappingText.setAttribute('text', {value: 'Current mapping: ' + AFRAME.currentInputMapping});
-      logEvent(evt);
-    });
-
-    var events = ['dpadleft', 'dpadrightlong', 'dpad', 'logtask1', 'logtask2', 'logdefault', 'righthand', 'lefthand', 'doubletouch', 'doublepress', 'longpress'];
-    for (var i = 0; i < events.length; i++) {
-      scene.addEventListener(events[i], function(event) { 
-        logEvent(event); 
-      });
-    }
-  }
-
-  </script>
 </body></html>
