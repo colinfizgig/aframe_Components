@@ -81,7 +81,8 @@ var Canvas = Class.extend({
 
 	animate: function(loop){
 		var rf = (function(){
-			return window.requestAnimationFrame 	||
+			
+				return window.requestAnimationFrame 	||
 				window.webkitRequestAnimationFrame 	||
 				window.mozRequestAnimationFrame 	||
 				window.oRequestAnimationFrame 		||
@@ -89,11 +90,15 @@ var Canvas = Class.extend({
 				function(cb, el){
 					window.setTimeout(cb, 1000/60);
 				}
+			
 		})();
 
 		var l = function(){
 			loop();
-			rf(l, self.canvas);
+			//throttle the playback of the canvas so that it doesn't fly in vr
+			setTimeout(function(){ 
+				rf(l, self.canvas);
+			}, 1000/60);
 		}
 		rf(l, this.canvas);
 	}
