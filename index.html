@@ -1,9 +1,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 
 <meta charset="utf-8" />
-<title>Colins Aframe Component Examples</title>
-<meta name="description" content="Hello, World! • A-Frame" />
-<script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+<title>The Parthenon Project</title>
+<meta name="description" content="Exploring the Parthenon and the Acropolis in XR" />
+<script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
 <script src="./components/camera-cube-env.js"></script>
 <style>
 	html {
@@ -167,18 +167,26 @@
 	
 	function loadExample(myURL) {
 		document.getElementById("exampleIframe").src = myURL;
-		if(myURL == 'https://colinfizgig.github.io/aframe_Components/Cube_Camera_Environment.html'){
-				document.getElementById('description').innerHTML = "This is a example of a my cubecamera component which attaches a three.js cubeCamera to a reflective object and loads the texture from that camera as a cube environment map.  For a tutorial on how it works and why it's useful check out </br></br><a class='youtubeLink' href='https://www.youtube.com/watch?v=Qkdq9JxSogg'>Aframe Materials Tutorial</a></br></br>";
+		if(myURL == 'https://colinfizgig.github.io/aframe_Components/Cube_Camera_Environment_Reflect.html'){
+				document.getElementById('description').innerHTML = "This is a example of a my cubecamera component which attaches a three.js cubeCamera to a reflective object and loads the texture from that camera as a cube environment map for reflection.  For a tutorial on how it works and why it's useful check out </br></br><a class='youtubeLink' href='https://www.youtube.com/watch?v=Qkdq9JxSogg'>Aframe Materials Tutorial</a></br></br>";
 				document.getElementById('description1').innerHTML = '';
+				document.getElementById('description2').innerHTML = '';
+				document.getElementById('description3').innerHTML = '';
+			}else if(myURL == 'https://colinfizgig.github.io/aframe_Components/Cube_Camera_Environment_Refract.html'){
+				document.getElementById('description').innerHTML = "This is a example of a my cubecamera component which attaches a three.js cubeCamera to a refractive object and loads the texture from that camera as a cube environment refraction map.  This is useful for simulating transparent objects with refraction that warps the transparent image.  Play with setting the refraction ratio lower or higher to create more or less distortion.  Setting the roughness property on the material will make the object seem opaque and blurry like a marble</br></br>";
+				document.getElementById('description').innerHTML = '';
+				document.getElementById('description3').innerHTML = '';
 				document.getElementById('description2').innerHTML = '';
 			}else if(myURL == 'https://colinfizgig.github.io/aframe_Components/lightTest.html'){
 				document.getElementById('description1').innerHTML = "This is a example of a my light map component which attaches a baked light map to the standard material light map in aframe.  This is not exposed in the material interface and requires a second set of UVs on the object.  For a tutorial on how it works and why it's useful check out </br></br><a class='youtubeLink' href='https://www.youtube.com/watch?v=G0M4OBThID8'>Baked Lighting Tutorial</a></br></br>";
 				document.getElementById('description').innerHTML = '';
-				document.getElementById('description2').innerHTML = '';
+				document.getElementById('description1').innerHTML = '';
+				document.getElementById('description3').innerHTML = '';
 			}else if(myURL == 'https://colinfizgig.github.io/aframe_Components/Arcade_Merged.html'){
 				document.getElementById('description2').innerHTML = "This is a example using an HTML5 canvas as a texture.  To play the asteroids game hit the space bar on your computer and use the 'J','I','L' and 'M' KEYS to navigate the ship.  Use the 'SPACE BAR' to fire at the asteroids.  I'm working on a tutorial which shows ways to speed up peformance of this type of interactive texture in WebGL.  For best performance use the Chrome browser which seems to render the tag with less overhead than Firefox. </br></br>";
 				document.getElementById('description').innerHTML = '';
 				document.getElementById('description1').innerHTML = '';
+				document.getElementById('description2').innerHTML = '';
 			}
 	}
 </script>
@@ -191,16 +199,20 @@
 			<div>
 				<ul class="links">
 					<li>
-					<div class="button"><a onclick="loadExample('https://colinfizgig.github.io/aframe_Components/Cube_Camera_Environment.html')">Camera Cube Env Map</a></div>
+					<div class="button"><a onclick="loadExample('https://colinfizgig.github.io/aframe_Components/Cube_Camera_Environment.html')">Camera Cube Env Map Reflect</a></div>
 					<div id="description" class="descriptions"></div>
 					</li>
 					<li>
-					<div class="button"><a onclick="loadExample('https://colinfizgig.github.io/aframe_Components/lightTest.html')">Baked Light Mapping</a></div>
+					<div class="button"><a onclick="loadExample('https://colinfizgig.github.io/aframe_Components/Cube_Camera_Environment_Refract.html')">Camera Cube Env Map Refract</a></div>
 					<div id="description1" class="descriptions"></div>
 					</li>
 					<li>
-					<div class="button"><a onclick="loadExample('https://colinfizgig.github.io/aframe_Components/Arcade_Merged.html')">Interactive Canvas Texture</a></div>
+					<div class="button"><a onclick="loadExample('https://colinfizgig.github.io/aframe_Components/lightTest.html')">Baked Light Mapping</a></div>
 					<div id="description2" class="descriptions"></div>
+					</li>
+					<li>
+					<div class="button"><a onclick="loadExample('https://colinfizgig.github.io/aframe_Components/Arcade_Merged.html')">Interactive Canvas Texture</a></div>
+					<div id="description3" class="descriptions"></div>
 					</li>
 					</br>
 				</ul>
@@ -208,7 +220,7 @@
 			</div>
 	</aside>
 	<div id="content">
-	<iframe id="exampleIframe" class="example__iframe" width="100%" height="100%" allowfullscreen="yes" scrolling="no" allowvr="yes" src="./Cube_Camera_Environment.html"></iframe>
+	<iframe id="exampleIframe" class="example__iframe" width="100%" height="100%" allowfullscreen="yes" scrolling="no" allowvr="yes" src="./Cube_Camera_Environment_Reflect.html"></iframe>
 	</div>
 </div>
 

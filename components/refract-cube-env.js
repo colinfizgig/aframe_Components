@@ -2,10 +2,11 @@
  * Specifies an envMap on an entity, without replacing any existing material
  * properties.
  */
-AFRAME.registerComponent('camera-cube-env', {
+AFRAME.registerComponent('refract-cube-env', {
   schema: {
 	    resolution: { type:'number', default: 128},
 	    distance: {type:'number', default: 100000},
+		refractionratio: {type:'float', default: 0.9},
 	    interval: { type:'number', default: 1000},
 	    repeat: { type:'boolean', default: false}
 	  },
@@ -23,11 +24,13 @@ AFRAME.registerComponent('camera-cube-env', {
 	    this.cam = new THREE.CubeCamera( 1.0, this.data.distance, this.data.resolution);
 		
 		this.cam.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
+		this.cam.renderTarget.texture.mapping =  THREE.CubeRefractionMapping;
 		this.cam.renderTarget.texture.generateMipmaps = true;
 	    this.el.object3D.add( this.cam );
 
 	    this.done = false;
 		var myCam = this.cam;
+		var myRatio = this.data.refractionratio;
 		var myEl = this.el;
 		var myMesh = this.el.getObject3D('mesh');
 
@@ -36,6 +39,7 @@ AFRAME.registerComponent('camera-cube-env', {
 				myMesh.traverse( function( child ) { 
 					if ( child instanceof THREE.Mesh ) {
 						child.material.envMap = myCam.renderTarget.texture;
+						child.material.refractionRatio = myRatio;
 						child.material.needsUpdate = true;
 					}
 				});
@@ -81,18 +85,21 @@ AFRAME.registerComponent('camera-cube-env', {
 	   */
 	  update: function (oldData) {
 			this.counter = this.data.interval;
-				this.cam = new THREE.CubeCamera( 1.0, this.data.distance, this.data.resolution);
-			  this.cam.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
-	          this.el.object3D.add( this.cam );
-	          this.done = false;
-			  var myCam = this.cam;
+			this.cam = new THREE.CubeCamera( 1.0, this.data.distance, this.data.resolution);
+			this.cam.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
+			this.cam.renderTarget.texture.mapping =  THREE.CubeRefractionMapping;
+	        this.el.object3D.add( this.cam );
+	        this.done = false;
+			var myCam = this.cam;
+			var myRatio = this.data.refractionratio;
 			  
-	          this.mesh = this.el.getObject3D('mesh');
+	        this.mesh = this.el.getObject3D('mesh');
 	          if(this.mesh){
 	            this.mesh.traverse( function( child ) { 
 	                if ( child instanceof THREE.Mesh ) {
 						child.material.envMap = myCam.renderTarget.texture;
 						myCam.renderTarget.texture.generateMipmaps = true;
+						child.material.refractionRatio = myRatio;
 						child.material.needsUpdate = true;
 					}
 	            });
