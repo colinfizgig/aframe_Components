@@ -1,6 +1,8 @@
 # aframe_Components
 a reopository or aframe components developed or modified by me for Aframe-VR
 
+https://colinfizgig.github.io/aframe_Components/
+
 ![alt text](./cube-camera-environment.JPG)
 
 # camera-cube-env component
@@ -10,6 +12,18 @@ a component to inject cubemap envMaps into an object based on the objects positi
 Just add the
 # camera-cube-env="distance: 100000; resolution: 256"
 to your elements.  You can play with the resolution that works for you.  It also has a repeat attribute which if set to true allows you to capture animation or changes in the environment in realtime.  This occurs at the expense of fps so use it lightly if at all.
+
+-------------------------------------------------------------------------------------------------
+
+![alt text](./cube-camera-environment-refract.JPG)
+
+# refract-cube-env component
+
+a component to inject cubemap refraction envMaps into an object based on the objects position.  This allows you to capture the environment at runtime without much cost to rendering.  The effect emulates thick transparent glass objects.
+
+Just add the
+# refract-cube-env="distance: 5000; resolution: 256; refractionratio: 0.8"
+to your elements.  You can play with the resolution that works for you.  You can modify the refraction ratio to get more or less distortion in the refraction. It also has a repeat attribute which if set to true allows you to capture animation or changes in the environment in realtime.  This occurs at the expense of fps so use it lightly if at all.
 
 -------------------------------------------------------------------------------------------------
 
