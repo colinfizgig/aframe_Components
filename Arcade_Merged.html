@@ -184,6 +184,18 @@
 			}
 		});
 		
+		AFRAME.registerComponent('canvas-updater', {
+
+          tick: function () {
+	      var el = this.el;
+	      var material;
+
+	      material = el.getObject3D('mesh').material;
+	      if (!material.map) { return; }
+              material.map.needsUpdate = true;
+          }
+      });
+		
 			
 </script>
 		
@@ -202,7 +214,7 @@
 <a-entity id="AsteroidsCabinet" position="-3.09 0 -3">
 	<a-entity gltf-model="#cabinet" camera-cube-env="resolution:256; interval: 1000" shadow="" position="0 0 0" scale="1 1 1"></a-entity>
 
-	<a-entity obj-model="obj:#screen" position="0 0 0" scale="0.01 0.01 0.01" id="gamescreen" material="src:#asteroids; shader:flat"></a-entity>
+	<a-entity obj-model="obj:#screen" position="0 0 0" scale="0.01 0.01 0.01" id="gamescreen" material="src:#asteroids; shader:flat" canvas-updater=""></a-entity>
 	
 </a-entity>
 
