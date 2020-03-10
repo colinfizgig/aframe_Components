@@ -212,7 +212,7 @@
 <a-sky src="#sky" material="" geometry="" rotation="0 90 0"></a-sky>
 
 <a-entity id="AsteroidsCabinet" position="-3.09 0 -3">
-	<a-entity gltf-model="#cabinet" camera-cube-env="resolution:256; interval: 1000" shadow="" position="0 0 0" scale="1 1 1"></a-entity>
+	<a-entity gltf-model="#cabinet" camera-cube-env="distance: 10000; resolution: 256; repeat: false; interval: 600" shadow="" position="0 0 0" scale="1 1 1"></a-entity>
 
 	<a-entity obj-model="obj:#screen" position="0 0 0" scale="0.01 0.01 0.01" id="gamescreen" material="src:#asteroids; shader:flat" canvas-updater=""></a-entity>
 	
