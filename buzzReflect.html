@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+<meta charset="utf-8" />
+<title>Hello, World! • A-Frame</title>
+<meta name="description" content="Hello, World! • A-Frame" />
+<script src="https://aframe.io/releases/1.0.3/aframe.min.js"></script>
+<script src="./components/camera-cube-env.js"></script>
+<script src="./components/refract-cube-env.js"></script>
+
+</head>
+<body class="a-body ">
+<a-scene background="color:#5f5f5f" class="fullscreen" inspector="" keyboard-shortcuts="" screenshot="" vr-mode-ui="" shadow="autoUpdate: true; type:pcfsoft">
+
+<a-assets>
+	<img id="sky" src="./textures/sky.jpg">
+	<a-asset-item id="buzz" src="./Buzz1.glb"></a-asset-item>
+</a-assets>
+
+<a-sky src="#sky" material="" geometry="" rotation="0 90 0"></a-sky>
+<a-entity gltf-model="#buzz" shadow="true" position="0 0 -10" rotation="0 -30 0" camera-cube-env="distance: 10000; resolution: 256; repeat: false; interval: 600"></a-entity>
+
+
+<a-plane position="0 -3.55 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" shadow="" material="" geometry="" scale="100 100 1"></a-plane>
+
+<a-entity position="-3.25 6.437 3.45" id="spotlight" light="castShadow:true;penumbra:0.78;angle:20.59;target:#sphere;shadowMapHeight:2048;shadowMapWidth:2048;shadowCameraFov:50;shadowCameraFar:492.95;shadowCameraVisible:false;shadowCameraTop:30;shadowCameraRight:15;shadowCameraBottom:-15;shadowCameraLeft:-15"></a-entity>
+
+ <a-entity light="type:hemisphere;groundColor:#4a4137;color:#ceeaf7;angle:0;distance:100;decay:0;intensity:0.53;target:#statue" rotation="0 0 0.01" visible=""></a-entity>
+ 
+ <a-entity camera look-controls wasd-controls="acceleration:  600" position="0 1.6 0"></a-entity>
+
+ 
+
+</a-scene>
+
+
+</body></html>

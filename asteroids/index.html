@@ -40,127 +40,18 @@
 		<script>
 			var game = new Game();
 			game.run();
+			
+			window.onresize = scaleGame;
+			
+			function scaleGame(){
+				xS = w.innerWidth || e.clientWidth || 	g.clientWidth;
+				yS = w.innerHeight|| e.clientHeight|| g.clientHeight;
+				game.canvas.init(xS,yS);
+				game.init();
+			}
 		
-		// code to bind keyEvents to other events
-		// this is a hack to inject control by VR control into
-		// html5 keyboard canvas games that use keyboard events.
-		/*
-		keySim = {};
-			keySim.keydown = function(k) {
-				var oEvent = document.createEvent('KeyboardEvent');
-
-				// Chromium Hack
-				Object.defineProperty(oEvent, 'keyCode', {
-							get : function() {
-								return this.keyCodeVal;
-							}
-				});     
-				Object.defineProperty(oEvent, 'which', {
-							get : function() {
-								return this.keyCodeVal;
-							}
-				});     
-
-				if (oEvent.initKeyboardEvent) {
-					oEvent.initKeyboardEvent("keydown", true, true, document.defaultView, false, false, false, false, k, k);
-				} else {
-					oEvent.initKeyEvent("keydown", true, true, document.defaultView, false, false, false, false, k, 0);
-				}
-
-				oEvent.keyCodeVal = k;
-
-				if (oEvent.keyCode !== k) {
-					alert("keyCode mismatch " + oEvent.keyCode + "(" + oEvent.which + ")");
-				}
-
-				document.dispatchEvent(oEvent);
-			}
-			
-			// keyup
-			
-			keySim.keyup = function(k) {
-				var oEvent2 = document.createEvent('KeyboardEvent');
-
-				// Chromium Hack
-				Object.defineProperty(oEvent2, 'keyCode', {
-							get : function() {
-								return this.keyCodeVal;
-							}
-				});     
-				Object.defineProperty(oEvent2, 'which', {
-							get : function() {
-								return this.keyCodeVal;
-							}
-				});     
-
-				if (oEvent2.initKeyboardEvent) {
-					oEvent2.initKeyboardEvent("keyup", true, true, document.defaultView, false, false, false, false, k, k);
-				} else {
-					oEvent2.initKeyEvent("keyup", true, true, document.defaultView, false, false, false, false, k, 0);
-				}
-
-				oEvent2.keyCodeVal = k;
-
-				if (oEvent2.keyCode !== k) {
-					alert("keyCode mismatch " + oEvent2.keyCode + "(" + oEvent2.which + ")");
-				}
-
-				document.dispatchEvent(oEvent2);
-			}
-			
-			//space btn simulate
-			document.getElementById("spaceBtn").addEventListener("mousedown", function(event){
-				keySim.keydown(32);
-
-			});
-			document.getElementById("spaceBtn").addEventListener("mouseup", function(event){
-				keySim.keyup(32);
-			});
-			//left btn simulate
-			document.getElementById("leftBtn").addEventListener("mousedown", function(event){
-				//game.input.down.left = true;
-				keySim.keydown(74);
-			});
-			document.getElementById("leftBtn").addEventListener("mouseup", function(event){
-				//game.input.down.left = false;
-				keySim.keyup(74);
-			});
-			//right btn simulate
-			document.getElementById("rightBtn").addEventListener("mousedown", function(event){
-				//game.input.down.right = true;
-				keySim.keydown(76);
-			});
-			document.getElementById("rightBtn").addEventListener("mouseup", function(event){
-				//game.input.down.right = false;
-				keySim.keyup(76);
-			});
-			//up btn simulate
-			document.getElementById("upBtn").addEventListener("mousedown", function(event){
-				//game.input.down.up = true;
-				keySim.keydown(73);
-			});
-			document.getElementById("upBtn").addEventListener("mouseup", function(event){
-				//game.input.down.up = false;
-				keySim.keyup(73);
-			});
-			//down btn simulate
-			document.getElementById("downBtn").addEventListener("mousedown", function(event){
-				keySim.keydown(77);
-			});
-			document.getElementById("downBtn").addEventListener("mouseup", function(event){
-				keySim.keyup(77);
-			});
-			
-			//enter btn simulate
-			document.getElementById("enterBtn").addEventListener("mousedown", function(event){
-				keySim.keydown(13);
-			});
-			document.getElementById("enterBtn").addEventListener("mouseup", function(event){
-				keySim.keyup(13);
-			});
-			
-			*/
 		</script>
 
 	</body>
+
 </html>

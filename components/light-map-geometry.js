@@ -31,7 +31,8 @@ AFRAME.registerComponent('light-map-geometry', {
 	  if (node.geometry && node.geometry.type == "BufferGeometry"){
 		  //console.log(node);
 		  //console.log(node.geometry.attributes);
-		  node.geometry.attributes.uv2 = node.geometry.attributes.uv.clone();
+		  console.log(node.geometry.attributes.uv2);
+		  //node.geometry.attributes.uv2 = node.geometry.attributes.uv.clone();
 	  }
       if (node.material && 'lightMap' in node.material) {
 		
