@@ -1,0 +1,87 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="X-UA-Compatible" content"ie-edge">
+	<title>KinioForm</title>
+	 <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+	<script>
+
+		import {hiderMaterialComponent, portalComponent, bobComponent} from './portal-components.js'
+		import {cubeEnvMapComponent} from './cubemap-absolute.js'
+			AFRAME.registerComponent('hider-material', hiderMaterialComponent)
+			AFRAME.registerComponent('portal', portalComponent)
+			AFRAME.registerComponent('bob', bobComponent)
+			AFRAME.registerComponent('cube-env-map', cubeEnvMapComponent)
+	</script>
+</head>
+	<body>
+
+<!-- Copyright (c) 2020 8th Wall, Inc. -->
+<!-- body.html is optional; elements will be added to your html body after app.js is loaded. -->
+<a-scene
+  portal
+  >
+  <!-- We can define assets here to be loaded when A-Frame initializes -->
+  <a-assets>
+    <!-- Credit to Poly by Google for the model: https://poly.google.com/view/0fVRHo65E-j -->
+    <!--<a-asset-item id="ballModel" src="assets/jini-ball.glb"></a-asset-item> -->
+    <img id="pines" src="./assets/misty-pines.jpg">
+    <img id="posx" src="./assets/cubemap/posx.png">
+    <img id="posy" src="./assets/cubemap/posy.png">
+    <img id="posz" src="./assets/cubemap/posz.png">
+    <img id="negx" src="./assets/cubemap/negx.png">
+    <img id="negy" src="./assets/cubemap/negy.png">
+    <img id="negz" src="./assets/cubemap/negz.png">
+  </a-assets>
+  <a-camera id="camera" position="0 5 8"></a-camera>
+  <!-- Doorway -->
+  <a-box  scale="1 6 1" position="-2.5 3 0" color="#8083A2"></a-box>
+  <a-box scale="1 6 1" position="2.5 3 0" color="#8083A2"></a-box>
+  <a-box  scale="6 1 1" position="0 6.5 0" color="#8083A2"></a-box>
+  <!-- Hider walls -->
+  <a-entity id="hider-walls">
+    <a-box scale="6 100 1" position="0 57 0" hider-material></a-box>
+    <a-box scale="94 100 1" position="-50 50 0" hider-material></a-box>
+    <a-box scale="94 100 1" position="50 50 0" hider-material></a-box>
+    <a-box scale="200 100 1" position="0 50 200" hider-material></a-box>
+    <a-box scale="200 1 201" position="0 100 100" hider-material></a-box>
+    <a-box scale="200 1 199" position="0 -0.5 100" hider-material></a-box>
+    <a-box scale="1 100 200" position="-100 50 100" hider-material></a-box>
+    <a-box scale="1 100 200" position="100 50 100" hider-material></a-box>
+  </a-entity>
+  <a-entity id="portal-wall">
+    <a-plane scale="4 6 1" rotation="180 0 0" position="0 3 0.5" hider-material></a-plane>
+  </a-entity>
+  
+  <a-entity
+    light="
+      type: directional;
+      intensity: 0.8;
+      castShadow: true;
+      shadowMapHeight:2048;
+      shadowMapWidth:2048;
+      shadowCameraTop: 10;
+      target: #ball;"
+    position="1 4.3 2.5"
+    xrextras-attach="target: ball; offset: 0 15 0;"
+    shadow>
+  </a-entity>
+  <a-entity light="type: ambient; intensity: 0.65;"></a-entity>
+  <a-entity id="portal-contents">
+    <a-entity
+      id="ball"
+      scale="5 5 5"
+      position="0 1.5 -7"
+      cube-env-map
+      bob
+      shadow>
+	  <a-sphere  radius="1.25" color="#EF2D5E" shadow="" geometry="" id="sphere" ></a-sphere>
+    </a-entity>
+    <a-sky src="#pines"></a-sky>
+    <a-box scale="5 1 10" position="0 -0.5 -4.5" color="#8083A2" shadow></a-box>
+  </a-entity>
+</a-scene>
+</body>
+</html>

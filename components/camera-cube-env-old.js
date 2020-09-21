@@ -2,8 +2,6 @@
  * Specifies an envMap on an entity, without replacing any existing material
  * properties.
  */
- 
-	  
 AFRAME.registerComponent('camera-cube-env', {
   schema: {
 	    resolution: { type:'number', default: 128},
@@ -22,8 +20,7 @@ AFRAME.registerComponent('camera-cube-env', {
 	   */
 	  init: function(){
 	    this.counter = this.data.interval;
-		
-		this.cam = new THREE.CubeCamera( 1.0, this.data.distance, this.data.resolution);
+	    this.cam = new THREE.CubeCamera( 1.0, this.data.distance, this.data.resolution);
 		
 		this.cam.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
 		this.cam.renderTarget.texture.generateMipmaps = true;
@@ -32,17 +29,9 @@ AFRAME.registerComponent('camera-cube-env', {
 	    this.done = false;
 		var myCam = this.cam;
 		var myEl = this.el;
-		var myScene = document.querySelector('a-scene').object3D;
 		var myMesh = this.el.getObject3D('mesh');
-		
-		myScene.addEventListener('loaded', function(){myLoaded(myCam, myEl, myMesh)}, false); 
 
-		function myLoaded(myCam, myEl, myMesh){
-			myMesh.visible = false;
-
-	        AFRAME.scenes[0].renderer.autoClear = true;
-	        myCam.position.copy(myEl.object3D.worldToLocal(myEl.object3D.getWorldPosition()));
-	        myCam.update( AFRAME.scenes[0].renderer, myEl.sceneEl.object3D );
+		document.querySelector('a-scene').addEventListener('loaded', function (myCam, myEl, myMesh) {
 			if(myMesh){
 				myMesh.traverse( function( child ) { 
 					if ( child instanceof THREE.Mesh ) {
@@ -51,42 +40,39 @@ AFRAME.registerComponent('camera-cube-env', {
 					}
 				});
 			}
-			myMesh.visible = true;
-		}
+		});      
 			  
 	  },
 	  
 	  tick: function(t,dt){
-		
+		var myCam = this.cam;
 	    if(!this.done){
 	      if( this.counter > 0){
 	        this.counter-=dt;
 	      }else{
-	        myRedraw(this.cam, this.el, this.el.getObject3D('mesh'));
-			if(!this.data.repeat){
-	              this.done = true;
-	              this.counter = this.data.interval;
-	        }
-	      }
-	    }
-		
-		function myRedraw(myCam, myEl, myMesh){
-			myMesh.visible = false;
+	        this.mesh = this.el.getObject3D('mesh');
+	        
+	        if(this.mesh){
+	            this.mesh.visible = false;
+	            AFRAME.scenes[0].renderer.autoClear = true;
+	            myCam.position.copy(this.el.object3D.worldToLocal(this.el.object3D.getWorldPosition()));
+	            myCam.update( AFRAME.scenes[0].renderer, this.el.sceneEl.object3D );
 
-	        AFRAME.scenes[0].renderer.autoClear = true;
-	        myCam.position.copy(myEl.object3D.worldToLocal(myEl.object3D.getWorldPosition()));
-	        myCam.update( AFRAME.scenes[0].renderer, myEl.sceneEl.object3D );
-			if(myMesh){
-				myMesh.traverse( function( child ) { 
-					if ( child instanceof THREE.Mesh ) {
+	            this.mesh.traverse( function( child ) { 
+	                if ( child instanceof THREE.Mesh ){
 						child.material.envMap = myCam.renderTarget.texture;
 						child.material.needsUpdate = true;
 					}
-				});
-			}
-			myMesh.visible = true;
-		}
-
+	            });
+	            this.mesh.visible = true;
+	        
+	            if(!this.data.repeat){
+	              this.done = true;
+	              this.counter = this.data.interval;
+	            }
+	        }
+	      }
+	    }
 	  },
 
 	  /**
@@ -94,24 +80,23 @@ AFRAME.registerComponent('camera-cube-env', {
 	   * Generally modifies the entity based on the data.
 	   */
 	  update: function (oldData) {
-		 
-		myUpdate(this.cam, this.el, this.el.getObject3D('mesh'));
-		function myUpdate(myCam, myEl, myMesh){
-			myMesh.visible = false;
-
-	        AFRAME.scenes[0].renderer.autoClear = true;
-	        myCam.position.copy(myEl.object3D.worldToLocal(myEl.object3D.getWorldPosition()));
-	        myCam.update( AFRAME.scenes[0].renderer, myEl.sceneEl.object3D );
-			if(myMesh){
-				myMesh.traverse( function( child ) { 
-					if ( child instanceof THREE.Mesh ) {
+			this.counter = this.data.interval;
+				this.cam = new THREE.CubeCamera( 1.0, this.data.distance, this.data.resolution);
+			  this.cam.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
+	          this.el.object3D.add( this.cam );
+	          this.done = false;
+			  var myCam = this.cam;
+			  
+	          this.mesh = this.el.getObject3D('mesh');
+	          if(this.mesh){
+	            this.mesh.traverse( function( child ) { 
+	                if ( child instanceof THREE.Mesh ) {
 						child.material.envMap = myCam.renderTarget.texture;
+						myCam.renderTarget.texture.generateMipmaps = true;
 						child.material.needsUpdate = true;
 					}
-				});
-			}
-			myMesh.visible = true;
-		}
+	            });
+	          }
 	  },
 
 	  /**
