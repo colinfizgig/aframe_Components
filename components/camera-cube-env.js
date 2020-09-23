@@ -9,6 +9,8 @@ AFRAME.registerComponent('camera-cube-env', {
 	    resolution: { type:'number', default: 128},
 	    distance: {type:'number', default: 10000},
 	    interval: { type:'number', default: 1000},
+		metalness: { type:'float', default: 1.0},
+		roughness: { type:'float', default: 0.5},
 	    repeat: { type:'boolean', default: false}
 	  },
 
@@ -35,8 +37,8 @@ AFRAME.registerComponent('camera-cube-env', {
 		var myScene = document.querySelector('a-scene').object3D;
 		var myMesh = this.el.getObject3D('mesh');
 		
-		//this.el.addEventListener('model-loaded', () => {
-		myScene.addEventListener('loaded', () => {
+		//this method does target for skinned meshes and unskinned
+		this.el.addEventListener('model-loaded', () => {
 			// Grab the mesh / scene.
 			const obj = this.el.getObject3D('mesh');
 			// Go over the submeshes and modify materials we want.
@@ -51,29 +53,42 @@ AFRAME.registerComponent('camera-cube-env', {
 				AFRAME.scenes[0].renderer.autoClear = true;
 				myCam.position.copy(myEl.object3D.worldToLocal(myEl.object3D.getWorldPosition()));
 				myCam.update( AFRAME.scenes[0].renderer, myEl.sceneEl.object3D );
-				
-				/* Leaving this here for reference
-				if (node.type.indexOf('SkinnedMesh') !== -1) {
-					node.material.envMap = myCam.renderTarget.texture;
-					node.material.needsUpdate = true;
-				}
+
 				if (node.type.indexOf('Mesh') !== -1) {
+					node.material.metalness = this.data.metalness;
+					node.material.roughness = this.data.roughness;
 					node.material.envMap = myCam.renderTarget.texture;
 					node.material.needsUpdate = true;
-				}
-				*/
-				if(myMesh){
-				myMesh.traverse( function( child ) { 
-					if ( child instanceof THREE.Mesh ) {
-						child.material.envMap = myCam.renderTarget.texture;
-						child.material.needsUpdate = true;
-					}
-					});
 				}
 				myMesh.visible = true;
 			});
 		});
 		
+		/* does not target skinned meshes
+		myScene.addEventListener('loaded', () => {
+			var myCam = this.cam;
+			var myEl = this.el;
+			var myScene = document.querySelector('a-scene').object3D;
+			var myMesh = this.el.getObject3D('mesh');
+			myMesh.visible = false;
+
+			AFRAME.scenes[0].renderer.autoClear = true;
+			myCam.position.copy(myEl.object3D.worldToLocal(myEl.object3D.getWorldPosition()));
+			myCam.update( AFRAME.scenes[0].renderer, myEl.sceneEl.object3D );
+			
+			if(myMesh){
+				myMesh.traverse( function( child ) { 
+					if ( child instanceof THREE.Mesh ) {
+						child.material.color.set('green');
+						child.material.envMap = myCam.renderTarget.texture;
+						child.material.needsUpdate = true;
+					}
+					});
+			}
+			myMesh.visible = true;
+			
+		});
+		*/
 	  },
 	  
 	  tick: function(t,dt){
