@@ -9,6 +9,7 @@ AFRAME.registerComponent('camera-cube-env', {
 	    resolution: { type:'number', default: 128},
 	    distance: {type:'number', default: 10000},
 	    interval: { type:'number', default: 1000},
+		matoverride: {type:'boolean', default: false},
 		metalness: { type:'float', default: 1.0},
 		roughness: { type:'float', default: 0.5},
 	    repeat: { type:'boolean', default: false}
@@ -55,8 +56,10 @@ AFRAME.registerComponent('camera-cube-env', {
 				myCam.update( AFRAME.scenes[0].renderer, myEl.sceneEl.object3D );
 
 				if (node.type.indexOf('Mesh') !== -1) {
-					node.material.metalness = this.data.metalness;
-					node.material.roughness = this.data.roughness;
+					if(this.data.matoverride == true){
+						node.material.metalness = this.data.metalness;
+						node.material.roughness = this.data.roughness;
+					}
 					node.material.envMap = myCam.renderTarget.texture;
 					node.material.needsUpdate = true;
 				}
