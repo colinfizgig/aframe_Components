@@ -33,13 +33,10 @@ AFRAME.registerComponent('camera-cube-env', {
 	    this.el.object3D.add( this.cam );
 
 	    this.done = false;
-		var myCam = this.cam;
-		var myEl = this.el;
-		var myScene = document.querySelector('a-scene').object3D;
-		var myMesh = this.el.getObject3D('mesh');
 		
 		//this method does target for skinned meshes and unskinned
 		this.el.addEventListener('model-loaded', () => {
+
 			// Grab the mesh / scene.
 			const obj = this.el.getObject3D('mesh');
 			// Go over the submeshes and modify materials we want.
@@ -52,7 +49,9 @@ AFRAME.registerComponent('camera-cube-env', {
 				myMesh.visible = false;
 
 				AFRAME.scenes[0].renderer.autoClear = true;
-				myCam.position.copy(myEl.object3D.worldToLocal(myEl.object3D.getWorldPosition()));
+				var camVector = new THREE.Vector3();
+				myEl.object3D.getWorldPosition(camVector);
+				myCam.position.copy(myEl.object3D.worldToLocal(camVector));
 				myCam.update( AFRAME.scenes[0].renderer, myEl.sceneEl.object3D );
 
 				if (node.type.indexOf('Mesh') !== -1) {
@@ -76,7 +75,9 @@ AFRAME.registerComponent('camera-cube-env', {
 			myMesh.visible = false;
 
 			AFRAME.scenes[0].renderer.autoClear = true;
-			myCam.position.copy(myEl.object3D.worldToLocal(myEl.object3D.getWorldPosition()));
+			var camVector = new THREE.Vector3();
+			myEl.object3D.getWorldPosition(camVector);
+	        myCam.position.copy(myEl.object3D.worldToLocal(camVector));
 			myCam.update( AFRAME.scenes[0].renderer, myEl.sceneEl.object3D );
 			
 			if(myMesh){
@@ -95,24 +96,27 @@ AFRAME.registerComponent('camera-cube-env', {
 	  },
 	  
 	  tick: function(t,dt){
-		
-	    if(!this.done){
-	      if( this.counter > 0){
-	        this.counter-=dt;
-	      }else{
-	        myRedraw(this.cam, this.el, this.el.getObject3D('mesh'));
-			if(!this.data.repeat){
-	              this.done = true;
-	              this.counter = this.data.interval;
-	        }
-	      }
-	    }
+
+			if(!this.done){
+			  if( this.counter > 0){
+				this.counter-=dt;
+			  }else{
+				myRedraw(this.cam, this.el, this.el.getObject3D('mesh'));
+				if(!this.data.repeat){
+					this.done = true;
+					this.counter = this.data.interval;
+				}
+			  }
+			}
+
 		
 		function myRedraw(myCam, myEl, myMesh){
 			myMesh.visible = false;
 
 	        AFRAME.scenes[0].renderer.autoClear = true;
-	        myCam.position.copy(myEl.object3D.worldToLocal(myEl.object3D.getWorldPosition()));
+			var camVector = new THREE.Vector3();
+			myEl.object3D.getWorldPosition(camVector);
+	        myCam.position.copy(myEl.object3D.worldToLocal(camVector));
 	        myCam.update( AFRAME.scenes[0].renderer, myEl.sceneEl.object3D );
 			if(myMesh){
 				myMesh.traverse( function( child ) { 
@@ -138,7 +142,9 @@ AFRAME.registerComponent('camera-cube-env', {
 			myMesh.visible = false;
 
 	        AFRAME.scenes[0].renderer.autoClear = true;
-	        myCam.position.copy(myEl.object3D.worldToLocal(myEl.object3D.getWorldPosition()));
+	        var camVector = new THREE.Vector3();
+			myEl.object3D.getWorldPosition(camVector);
+	        myCam.position.copy(myEl.object3D.worldToLocal(camVector));
 	        myCam.update( AFRAME.scenes[0].renderer, myEl.sceneEl.object3D );
 			if(myMesh){
 				myMesh.traverse( function( child ) { 
