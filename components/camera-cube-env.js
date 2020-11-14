@@ -65,34 +65,6 @@ AFRAME.registerComponent('camera-cube-env', {
 				myMesh.visible = true;
 			});
 		});
-		
-		/* does not target skinned meshes
-		myScene.addEventListener('loaded', () => {
-			var myCam = this.cam;
-			var myEl = this.el;
-			var myScene = document.querySelector('a-scene').object3D;
-			var myMesh = this.el.getObject3D('mesh');
-			myMesh.visible = false;
-
-			AFRAME.scenes[0].renderer.autoClear = true;
-			var camVector = new THREE.Vector3();
-			myEl.object3D.getWorldPosition(camVector);
-	        myCam.position.copy(myEl.object3D.worldToLocal(camVector));
-			myCam.update( AFRAME.scenes[0].renderer, myEl.sceneEl.object3D );
-			
-			if(myMesh){
-				myMesh.traverse( function( child ) { 
-					if ( child instanceof THREE.Mesh ) {
-						child.material.color.set('green');
-						child.material.envMap = myCam.renderTarget.texture;
-						child.material.needsUpdate = true;
-					}
-					});
-			}
-			myMesh.visible = true;
-			
-		});
-		*/
 	  },
 	  
 	  tick: function(t,dt){

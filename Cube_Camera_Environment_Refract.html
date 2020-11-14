@@ -17,6 +17,8 @@
 	<img id="door_N" src="./textures/ParthenonOptimized_DoorMat_Normal.png">
 	<img id="door_M" src="./textures/ParthenonOptimized_DoorMat_Metallic.png">
 	<img id="door_R" src="./textures/ParthenonOptimized_DoorMat_Roughness.png">
+	
+	<a-asset-item id="glass1" src="./objects/glass.glb"></a-asset-item>
 
 </a-assets>
 
@@ -27,7 +29,10 @@
 
 <a-sphere position="-0.030882298031221847 1.193090656580662 -5.974771159246423" radius="1.25" color="#EF2D5E" shadow="" material="color:#ffffff;metalness:1;roughness:1;metalnessMap:#door_M;normalMap:#door_N;normalScale:0.3200000000000001 -0.38;src:#door_C;roughnessMap:#door_R;metalnessTextureRepeat:1 0.5;normalTextureRepeat:1 0.5;roughnessTextureRepeat:1 0.5;repeat:1 0.5" camera-cube-env="distance: 10000; resolution: 256; repeat: false; interval: 600" geometry="" id="sphere" ></a-sphere>
 
-<a-sphere position="1.9235126854468014 1.2578420656285436 -2.7593437232222047" radius="2"  color="#FFC65D" segments-height="36" segments-width="64" shadow="" material="metalness:1;roughness:0.15"  refract-cube-env="distance: 10000; resolution: 1024; refractionratio: 0.8" id="goldSphere"></a-sphere>
+
+<a-entity gltf-model="#glass1" position="1.9235126854468014 1.2578420656285436 -2.7593437232222047" scale="1 1 1" refract-cube-env="distance: 10000; resolution: 1024; refractionratio: 1.1"></a-entity>
+
+<a-entity gltf-model="#glass1" position="1.9235126854468014 3.2578420656285436 -4.7593437232222047" scale="1 1 1" refract-cube-env="distance: 10000; resolution: 1024; refractionratio: 1.1"></a-entity>
 
 <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" shadow="" material="" geometry="" scale="100 100 1"></a-plane>
 
