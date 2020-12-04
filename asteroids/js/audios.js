@@ -4,16 +4,16 @@
  */
 var Audios = {
 
-	EXPLODE1: "./asteroids/audio/explode1.mp3",
-	EXPLODE2: "./asteroids/audio/explode2.mp3",
-	EXPLODE3: "./asteroids/audio/explode3.mp3",
-	FIRE: "./asteroids/audio/fire.mp3",
-	LIVES: "./asteroids/audio/life.mp3",
-	ISAUCER: "./asteroids/audio/Isaucer.mp3",
-	SFIRE: "./asteroids/audio/sfire.mp3",
-	SSAUCER: "./asteroids/audio/ssaucer.mp3",
-	THRUST: "./asteroids/audio/thrust.mp3",
-	THUMPHI: "./asteroids/audio/thumphi.mp3",
-	THUMPLOW: "./asteroids/audio/thumplo.mp3"
+	EXPLODE1: "https://colinfizgig.github.io/aframe_Components/asteroids/audio/explode1.mp3",
+	EXPLODE2: "https://colinfizgig.github.io/aframe_Components/asteroids/audio/explode2.mp3",
+	EXPLODE3: "https://colinfizgig.github.io/aframe_Components/asteroids/audio/explode3.mp3",
+	FIRE: "https://colinfizgig.github.io/aframe_Components/asteroids/audio/fire.mp3",
+	LIVES: "https://colinfizgig.github.io/aframe_Components/asteroids/audio/life.mp3",
+	ISAUCER: "https://colinfizgig.github.io/aframe_Components/asteroids/audio/Isaucer.mp3",
+	SFIRE: "https://colinfizgig.github.io/aframe_Components/asteroids/audio/sfire.mp3",
+	SSAUCER: "https://colinfizgig.github.io/aframe_Components/asteroids/audio/ssaucer.mp3",
+	THRUST: "https://colinfizgig.github.io/aframe_Components/asteroids/audio/thrust.mp3",
+	THUMPHI: "https://colinfizgig.github.io/aframe_Components/asteroids/audio/thumphi.mp3",
+	THUMPLOW: "https://colinfizgig.github.io/aframe_Components/asteroids/audio/thumplo.mp3"
 
 }
