@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Asteroids</title>
+		<link rel="stylesheet" href="css/style.css">
+		<script type="text/javascript" src="js/agame.js"></script>
+	</head>
+	<body id="myBod">
+	<input type="text" id="namefield">
+		<script>
+		// hack
+		// remove the script tag above and below this section and uncomment the javascript
+		// block comment around the buttons below to enable butten key control for testing
+		// without keyboards.
+		/*
+			<button id="spaceBtn">spacebar</button>
+			<button id="leftBtn">left</button>
+			<button id="rightBtn">right</button>
+			<button id="upBtn">up</button>
+			<button id="downBtn">down</button>
+			<button id="enterBtn">enter</button>
+		*/
+		</script>
+		<script>
+			var game = new Game();
+			game.run();
+			
+			window.onresize = scaleGame;
+			
+			function scaleGame(){
+				xS = w.innerWidth || e.clientWidth || 	g.clientWidth;
+				yS = w.innerHeight|| e.clientHeight|| g.clientHeight;
+				game.canvas.init(xS,yS);
+				game.init();
+			}
+		
+		</script>
+
+	</body>
+
+</html>
