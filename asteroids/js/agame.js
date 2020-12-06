@@ -1171,12 +1171,12 @@ var Game = Class.extend({
 		this.soundEffect7 = new SoundEffect(Audios.THUMPLOW, "thumpLow", false, 0);
 
 		this.input = new InputHandeler({
-			left: 		74,
-			up: 		73,
-			right: 		76,
-			down: 		77,
-			spacebar: 	32,
-			enter:   	13
+			left: 		65, //a
+			up: 		87, //w
+			right: 		68, //d
+			down: 		83, //s
+			spacebar: 	38, //uparrow
+			enter:   	13  //enter
 		});
 
 		this.canvas.ctx.strokeStyle = "#fff";
